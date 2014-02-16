@@ -1,32 +1,42 @@
 ﻿<Window x:Class="BlackJackR.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="500" Width="720
-        " ResizeMode="NoResize">
+        Title="MainWindow" Height="565" Width="918" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="563*"/>
+            <ColumnDefinition Width="575*"/>
             <ColumnDefinition Width="8*"/>
             <ColumnDefinition Width="143*"/>
         </Grid.ColumnDefinitions>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="470" Margin="474,0,0,0" VerticalAlignment="Top" Width="238" Grid.ColumnSpan="3"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="2" Margin="0,188,0,0" VerticalAlignment="Top" Width="712" Grid.ColumnSpan="3" RenderTransformOrigin="0.5,0.5"/>
-        <Button Content="Hit!" HorizontalAlignment="Left" Margin="554,360,0,0" VerticalAlignment="Top" Width="94" Click="Button_Click" Height="27" Grid.ColumnSpan="3"/>
-        <Button Content="Stand!" HorizontalAlignment="Left" Margin="554,414,0,0" VerticalAlignment="Top" Width="94" Click="Button_Click_1" Height="27" Grid.ColumnSpan="3"/>
-        <Label Content="Current money player: €" HorizontalAlignment="Left" Margin="494,227,0,0" VerticalAlignment="Top" Width="140" Grid.ColumnSpan="3" Height="26"/>
-        <Label Content="Current money AI: €" HorizontalAlignment="Left" Margin="494,23,0,0" VerticalAlignment="Top" Width="118" Grid.ColumnSpan="3" Height="26"/>
-        <Button Content="Deal!" HorizontalAlignment="Left" Margin="554,311,0,0" VerticalAlignment="Top" Width="94" Height="27" Grid.ColumnSpan="3" Click="Button_Click_2"/>
-        <Label Name="MoneyAILabel" Content="" HorizontalAlignment="Left" Margin="46,23,0,0" VerticalAlignment="Top" Grid.Column="2" Width="59"/>
-        <Label Name="MoneyPlayerLabel" Content="" HorizontalAlignment="Left" Margin="63,227,0,0" VerticalAlignment="Top" Grid.Column="2" Width="59"/>
-        <TextBox Name="Card1PL" HorizontalAlignment="Left" Height="114" Margin="116,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
-        <TextBox x:Name="Card2PL" HorizontalAlignment="Left" Height="114" Margin="251,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
-        <TextBox x:Name="Card1AI" HorizontalAlignment="Left" Height="114" Margin="116,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
-        <TextBox x:Name="Card2AI" HorizontalAlignment="Left" Height="114" Margin="236,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
-        <TextBox x:Name="Card3AI" HorizontalAlignment="Left" Height="114" Margin="340,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Hidden" Focusable="False"/>
-        <TextBox x:Name="Card3PL" HorizontalAlignment="Left" Height="114" Margin="31,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Hidden" Focusable="False"/>
-        <TextBox x:Name="Card4PL" HorizontalAlignment="Left" Height="114" Margin="340,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Hidden" Focusable="False"/>
-        <TextBox x:Name="Card5PL" HorizontalAlignment="Left" Height="114" Margin="116,197,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Hidden" Focusable="False"/>
-        <TextBox x:Name="Card6PL" HorizontalAlignment="Left" Height="114" Margin="251,197,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Hidden" Focusable="False"/>
-
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="2" Margin="0,225,0,0" VerticalAlignment="Top" Width="925" Grid.ColumnSpan="3" RenderTransformOrigin="0.5,0.5"/>
+        <Button Name="HitButton" Content="Hit!" Visibility="Hidden" HorizontalAlignment="Left" Margin="42,336,0,0" VerticalAlignment="Top" Width="94" Click="HitButton_OnClick" Height="27" RenderTransformOrigin="0.574,-0.259" Grid.Column="2"/>
+        <Button Name="SplitButton" Content="Split!" Visibility="Hidden" HorizontalAlignment="Left" Margin="42,381,0,0" VerticalAlignment="Top" Width="94" Click="SplitButton_OnClick" Height="27" RenderTransformOrigin="0.574,-0.259" Grid.Column="2"/>
+        <Button Name="StandButton" Content="Stand!" Visibility="Hidden" HorizontalAlignment="Left" Margin="42,431,0,0" VerticalAlignment="Top" Width="94" Click="StandButton_OnClick" Height="27" Grid.Column="2"/>
+        <Label Content="Player: " HorizontalAlignment="Left" Margin="689,55,0,0" VerticalAlignment="Top" Width="59" Height="26" Grid.ColumnSpan="3"/>
+        <Label Content="Computer:" HorizontalAlignment="Left" Margin="671,24,0,0" VerticalAlignment="Top" Width="77" Height="26" RenderTransformOrigin="0.492,1.192" Grid.ColumnSpan="3"/>
+        <Button Name="DealButton" Content="Deal!" HorizontalAlignment="Left" Margin="42,284,0,0" VerticalAlignment="Top" Width="94" Height="27" Click="DealButton_OnClick" Grid.Column="2"/>
+        <Label Name="MoneyAILabel" Content="" HorizontalAlignment="Left" Margin="21,24,0,0" VerticalAlignment="Top" Width="59" Grid.Column="2"/>
+        <Label Name="MoneyPlayerLabel" Content="" HorizontalAlignment="Left" Margin="21,55,0,0" VerticalAlignment="Top" Width="59" Grid.Column="2"/>
+        <TextBox Name="Card1PL" FontSize="46" TextAlignment="Center" HorizontalAlignment="Left" Height="114" Margin="260,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
+        <TextBox Name="Card2PL" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="370,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
+        <TextBox Name="Card1AI" FontSize="46" TextAlignment="Center" Text="X" HorizontalAlignment="Left" Height="114" Margin="260,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
+        <TextBox Name="Card2AI" FontSize="46" TextAlignment="Center" Text="X" HorizontalAlignment="Left" Height="114" Margin="370,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
+        <TextBox Name="Card3AI" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="479,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Visible" Focusable="False"/>
+        <TextBox Name="Card4AI" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="158,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Visible" Focusable="False"/>
+        <TextBox Name="Card3PL" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="158,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Visible" Focusable="False"/>
+        <TextBox Name="Card4PL" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="479,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Visible" Focusable="False"/>
+        <TextBox Name="Card5PL" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="59,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Visible" Focusable="False"/>
+        <TextBox Name="Card6PL" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="582,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Visible" Focusable="False"/>
+        <Label  Name="BlackJackLabel" FontSize="42" Visibility="Hidden" Content="Blackjack! You won!" HorizontalAlignment="Left" Margin="88,212,0,0" VerticalAlignment="Top" Height="68" Width="391"/>
+        <Label Name="WinMessageLabel" Content="Player won!" HorizontalAlignment="Left" FontSize="26" Margin="260,232,0,0" VerticalAlignment="Top" Height="48" Width="219" Visibility="Hidden" />
+        <Label Name="LostMessageLabel" Content="Player lost!" HorizontalAlignment="Left" FontSize="26" Margin="323,232,0,0" VerticalAlignment="Top" Height="48" Width="181" Visibility="Hidden" />
+        <Button Content="Rules" Grid.Column="2" HorizontalAlignment="Left" Margin="98,10,0,0" VerticalAlignment="Top" Width="75" Click="RulesButton_OnClick"/>
+        <TextBox Name="Card5AI" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="59,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Visible" Focusable="False"/>
+        <TextBox Name="Card6AI" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="582,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Visible" Focusable="False"/>
+        <Label Content="Total points:" Grid.Column="2" HorizontalAlignment="Left" Margin="21,103,0,0" VerticalAlignment="Top" Width="104"/>
+        <Label Content="Computer: " Grid.Column="2" HorizontalAlignment="Left" Margin="21,134,0,0" VerticalAlignment="Top" Width="69"/>
+        <Label Content="Player:" Grid.Column="2" HorizontalAlignment="Left" Margin="21,160,0,0" VerticalAlignment="Top" Width="69"/>
+        <Label Content="0" Name="PlayerScoreLabel" Grid.Column="2" HorizontalAlignment="Left" Margin="98,134,0,0" VerticalAlignment="Top"/>
+        <Label Content="0" Name="AIScoreLabel" Grid.Column="2" HorizontalAlignment="Left" Margin="98,165,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
