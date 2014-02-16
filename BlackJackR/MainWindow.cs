@@ -25,6 +25,9 @@ namespace BlackJackR
         private NotificationWindow Notification { get; set; }
         public bool NotificationIsOpen { get; set; }
         public bool RulesWindowIsOpen { get; set; }
+        private int Min { get; set; }
+        private int Max { get; set; }
+        private int RandomCardComputer { get; set; }
 
         public MainWindow()
         {

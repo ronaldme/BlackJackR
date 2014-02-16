@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -37,6 +38,7 @@ namespace BlackJackR
             if (ScorePlayer > 21)
             {
                 EndGameMessageLabel.Content = "More then 21. You lost this round!";
+                AddMoneyToPlayer(false);
                 ResetGame();
                 return;
             }
@@ -44,24 +46,42 @@ namespace BlackJackR
 
         private void StandButton_OnClick(object sender, RoutedEventArgs e)
         {
-            int min = CardValues.Min();
-            int max = CardValues.Max() + 1;
+            Min = CardValues.Min();
+            Max = CardValues.Max() + 1;
 
-            int randomCardFirst = Ran.Next(min, max);
-            int randomCardTwo = Ran.Next(min, max);
+            int randomCardFirst = Ran.Next(Min, Max);
+            int randomCardTwo = Ran.Next(Min, Max);
             ScoreComputer = randomCardFirst + randomCardTwo;
+            AIScoreLabel.Content = ScoreComputer.ToString();
 
             Card1AI.Text = randomCardFirst.ToString();
             Card2AI.Text = randomCardTwo.ToString();
 
+            if (ScoreComputer < 17)
+            {
+                new Thread(CalculateAnotherCard).Start();
+            }
+            else
+            {
+                CalculateWinner(); 
+            }
+        }
+
+        private void CalculateAnotherCard()
+        {
             while (ScoreComputer < 17)
             {
-                int randomCard = Ran.Next(min, max);
+                Thread.Sleep(1500);
+                int randomCard = Ran.Next(Min, Max);
 
-                TextBoxComputer[CurrentTextBoxComputer].Text = randomCard.ToString();
                 CurrentTextBoxComputer++;
                 ScoreComputer += randomCard;
-                AIScoreLabel.Content = ScoreComputer.ToString();
+
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                        TextBoxComputer[CurrentTextBoxComputer].Text = randomCard.ToString();
+                        AIScoreLabel.Content = ScoreComputer.ToString();
+                }));
 
                 if (CurrentTextBoxComputer >= TextBoxComputer.Count())
                 {
@@ -69,13 +89,13 @@ namespace BlackJackR
                 }
                 else if (ScoreComputer >= 21)
                 {
-                    CalculateWinner();
-                    return;
+                    this.Dispatcher.Invoke((Action)(() =>
+                    {
+                        CalculateWinner();
+                        return;
+                    }));
                 }
             }
-
-            AIScoreLabel.Content = ScoreComputer.ToString();
-            CalculateWinner();
         }
 
         private void DealButton_OnClick(object sender, RoutedEventArgs e)
@@ -137,23 +157,35 @@ namespace BlackJackR
             else if (ScoreComputer > ScorePlayer && ScoreComputer <= 21)
             {
                 EndGameMessageLabel.Content = "Computer won this round!";
+                AddMoneyToPlayer(false);
+            }
+            else
+            {
+                EndGameMessageLabel.Content = "You won this round!";
+                AddMoneyToPlayer(true);
+            }
+
+            ResetGame();
+        }
+
+        private void AddMoneyToPlayer(bool playerWon)
+        {
+            if (playerWon)
+            {
+                MoneyPlayer += Convert.ToInt16(BetBox.Text);
+                MoneyPlayerLabel.Content = "€" + MoneyComputer.ToString();
+
+                MoneyComputer -= Convert.ToInt16(BetBox.Text);
+                MoneyComputerLabel.Content = "€" + MoneyPlayer.ToString();
+            }
+            else
+            {
                 MoneyComputer += Convert.ToInt16(BetBox.Text);
                 MoneyComputerLabel.Content = "€" + MoneyComputer.ToString();
 
                 MoneyPlayer -= Convert.ToInt16(BetBox.Text);
                 MoneyPlayerLabel.Content = "€" + MoneyPlayer.ToString();
             }
-            else
-            {
-                EndGameMessageLabel.Content = "You won this round!";
-                MoneyPlayer += Convert.ToInt16(BetBox.Text);
-                MoneyPlayerLabel.Content = "€" + MoneyPlayer.ToString();
-
-                MoneyComputer -= Convert.ToInt16(BetBox.Text);
-                MoneyComputerLabel.Content = "€" + MoneyComputer.ToString();
-            }
-
-            ResetGame();
         }
     }
 }
