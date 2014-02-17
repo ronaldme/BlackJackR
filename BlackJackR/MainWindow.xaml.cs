@@ -12,9 +12,41 @@ namespace BlackJackR
     /// </summary>
     public partial class MainWindow : Window
     {
-        private void SplitButton_OnClick(object sender, RoutedEventArgs e)
+        private void DealButton_OnClick(object sender, RoutedEventArgs e)
         {
-            // split cards, needs to be implemented.
+            if (NotificationIsOpen || !CheckUserInput()) return;
+
+            StartGame();
+
+            int min = CardValues.Min();
+            int max = CardValues.Max() + 1;
+
+            int randomCardFirst = Ran.Next(min, max);
+            int randomCardTwo = Ran.Next(min, max);
+
+            if (randomCardFirst == 11) PlayerAces.Add(randomCardFirst);
+            if (randomCardTwo == 11) PlayerAces.Add(randomCardTwo);
+
+            ScorePlayer = randomCardFirst + randomCardTwo;
+            PlayerScoreLabel.Content = ScorePlayer.ToString();
+
+            if (randomCardFirst == randomCardTwo)
+            {
+                SplitButton.Visibility = Visibility.Visible;
+            }
+
+            if (ScorePlayer == 21)
+            {
+                BlackJackLabel.Visibility = Visibility.Visible;
+                HitButton.Visibility = Visibility.Hidden;
+            }
+            else if (ScorePlayer > 21)
+            {
+                CheckPlayerCardsForAce();
+            }
+
+            Card1PL.Text = randomCardFirst.ToString();
+            Card2PL.Text = randomCardTwo.ToString();
         }
 
         private void HitButton_OnClick(object sender, RoutedEventArgs e)
@@ -29,6 +61,8 @@ namespace BlackJackR
             TextBoxPlayer[CurrentTextBoxPlayer].Text = randomCard.ToString();
             CurrentTextBoxPlayer++;
 
+            if(randomCard == 11) PlayerAces.Add(randomCard);
+
             if (CurrentTextBoxPlayer >= TextBoxPlayer.Count())
             {
                 HitButton.Visibility = Visibility.Hidden;
@@ -37,10 +71,7 @@ namespace BlackJackR
 
             if (ScorePlayer > 21)
             {
-                EndGameMessageLabel.Content = "More then 21. You lost this round!";
-                AddMoneyToPlayer(false);
-                ResetGame();
-                return;
+                CheckPlayerCardsForAce();
             }
         }
 
@@ -51,141 +82,70 @@ namespace BlackJackR
 
             int randomCardFirst = Ran.Next(Min, Max);
             int randomCardTwo = Ran.Next(Min, Max);
+            if (randomCardFirst == 11) ComputerAces.Add(randomCardFirst);
+            if (randomCardTwo == 11) ComputerAces.Add(randomCardTwo);
+
             ScoreComputer = randomCardFirst + randomCardTwo;
-            AIScoreLabel.Content = ScoreComputer.ToString();
+            ComputerScoreLabel.Content = ScoreComputer.ToString();
 
             Card1AI.Text = randomCardFirst.ToString();
             Card2AI.Text = randomCardTwo.ToString();
 
+            
+            if (ScoreComputer > 21)
+            {
+                CheckComputerCardsForAce();
+            }
+
             if (ScoreComputer < 17)
             {
-                new Thread(CalculateAnotherCard).Start();
+                new Thread(CalculateComputerCard).Start();
             }
             else
             {
-                CalculateWinner(); 
+                CalculateWinner();
             }
         }
 
-        private void CalculateAnotherCard()
+        private void SplitButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            // split cards, needs to be implemented.
+        }
+
+        private void CalculateComputerCard()
         {
             while (ScoreComputer < 17)
             {
-                Thread.Sleep(1500);
+                Thread.Sleep(1000);
                 int randomCard = Ran.Next(Min, Max);
+                if(randomCard == 11) ComputerAces.Add(randomCard);
 
-                CurrentTextBoxComputer++;
                 ScoreComputer += randomCard;
 
                 this.Dispatcher.Invoke((Action)(() =>
                 {
                         TextBoxComputer[CurrentTextBoxComputer].Text = randomCard.ToString();
-                        AIScoreLabel.Content = ScoreComputer.ToString();
+                        CurrentTextBoxComputer++;
+                        ComputerScoreLabel.Content = ScoreComputer.ToString();
                 }));
 
-                if (CurrentTextBoxComputer >= TextBoxComputer.Count())
-                {
-                    break;
-                }
-                else if (ScoreComputer >= 21)
+                if (ScoreComputer >= 21)
                 {
                     this.Dispatcher.Invoke((Action)(() =>
                     {
-                        CalculateWinner();
-                        return;
+                        CheckComputerCardsForAce();
                     }));
                 }
-            }
-        }
-
-        private void DealButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (NotificationIsOpen) return;
-
-            string betAmount = BetBox.Text;
-            try
-            {
-                int bet = Convert.ToInt16(betAmount);
-
-                if (bet < 100 || bet > 500)
+                if (CurrentTextBoxComputer >= TextBoxComputer.Count())
                 {
-                    Notification = new NotificationWindow(this);
-                    Notification.Show();
-                    return;
+                    Thread.Yield();
                 }
             }
-            catch (FormatException exception)
+            this.Dispatcher.Invoke((Action)(() =>
             {
-                Notification = new NotificationWindow(this);
-                Notification.Show();
-                return;
-            }
-
-            StartGame();
-
-            int min = CardValues.Min();
-            int max = CardValues.Max() + 1;
-
-            int randomCardFirst = Ran.Next(min, max);
-            int randomCardTwo = Ran.Next(min, max);
-
-            ScorePlayer = randomCardFirst + randomCardTwo;
-            PlayerScoreLabel.Content = ScorePlayer.ToString();
-
-            if (randomCardFirst == randomCardTwo)
-            {
-                SplitButton.Visibility = Visibility.Visible;
-            }
-
-            if (ScorePlayer == 21)
-            {
-                // Blackjack
-                BlackJackLabel.Visibility = Visibility.Visible;
-                HitButton.Visibility = Visibility.Hidden;
-            }
-
-            Card1PL.Text = randomCardFirst.ToString();
-            Card2PL.Text = randomCardTwo.ToString();
-        }
-
-        private void CalculateWinner()
-        {
-            if (ScoreComputer == ScorePlayer)
-            {
-                EndGameMessageLabel.Content = "Draw!";
-            }
-            else if (ScoreComputer > ScorePlayer && ScoreComputer <= 21)
-            {
-                EndGameMessageLabel.Content = "Computer won this round!";
-                AddMoneyToPlayer(false);
-            }
-            else
-            {
-                EndGameMessageLabel.Content = "You won this round!";
-                AddMoneyToPlayer(true);
-            }
-
-            ResetGame();
-        }
-
-        private void AddMoneyToPlayer(bool playerWon)
-        {
-            if (playerWon)
-            {
-                MoneyPlayer += Convert.ToInt16(BetBox.Text);
-                MoneyPlayerLabel.Content = "€" + MoneyComputer.ToString();
-
-                MoneyComputer -= Convert.ToInt16(BetBox.Text);
-                MoneyComputerLabel.Content = "€" + MoneyPlayer.ToString();
-            }
-            else
-            {
-                MoneyComputer += Convert.ToInt16(BetBox.Text);
-                MoneyComputerLabel.Content = "€" + MoneyComputer.ToString();
-
-                MoneyPlayer -= Convert.ToInt16(BetBox.Text);
-                MoneyPlayerLabel.Content = "€" + MoneyPlayer.ToString();
-            }
+                CalculateWinner();
+                Thread.Yield();
+            }));
         }
     }
 }

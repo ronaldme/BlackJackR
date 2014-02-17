@@ -54,6 +54,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="MainWindow.cs" />
+    <Compile Include="MainWindowLogic.cs" />
     <Compile Include="NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
     </Compile>

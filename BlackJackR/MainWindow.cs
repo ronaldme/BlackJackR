@@ -27,7 +27,9 @@ namespace BlackJackR
         public bool RulesWindowIsOpen { get; set; }
         private int Min { get; set; }
         private int Max { get; set; }
-        private int RandomCardComputer { get; set; }
+        private List<int> PlayerAces { get; set; }
+        private List<int> ComputerAces { get; set; } 
+
 
         public MainWindow()
         {
@@ -41,6 +43,8 @@ namespace BlackJackR
 
             Ran = new Random();
             CardValues = new List<int>();
+            PlayerAces = new List<int>();
+            ComputerAces = new List<int>();
             AddAllCards();
             InitTextboxes();
 
@@ -99,6 +103,8 @@ namespace BlackJackR
             ScorePlayer = 0;
             ScoreComputer = 0;
             BetBox.IsReadOnly = false;
+            PlayerAces.Clear();
+            ComputerAces.Clear();
         }
 
         private void StartGame()
@@ -113,7 +119,7 @@ namespace BlackJackR
             }
 
             PlayerScoreLabel.Content = "0";
-            AIScoreLabel.Content = "0";
+            ComputerScoreLabel.Content = "0";
             EndGameMessageLabel.Content = "";
             BlackJackLabel.Visibility = Visibility.Hidden;
             DealButton.Visibility = Visibility.Hidden;

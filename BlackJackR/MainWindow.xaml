@@ -22,8 +22,8 @@
         <TextBox Name="Card2PL" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="370,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
         <TextBox Name="Card1AI" FontSize="46" TextAlignment="Center" HorizontalAlignment="Left" Height="114" Margin="260,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
         <TextBox Name="Card2AI" FontSize="46" TextAlignment="Center" HorizontalAlignment="Left" Height="114" Margin="370,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
-        <TextBox Name="Card3AI" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="479,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Visible" Focusable="False"/>
-        <TextBox Name="Card4AI" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="158,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Visible" Focusable="False"/>
+        <TextBox Name="Card4AI" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="479,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Visible" Focusable="False"/>
+        <TextBox Name="Card3AI" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="158,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Visible" Focusable="False"/>
         <TextBox Name="Card3PL" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="158,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Visible" Focusable="False"/>
         <TextBox Name="Card4PL" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="479,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Visible" Focusable="False"/>
         <TextBox Name="Card5PL" FontSize="46" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="59,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Visibility="Visible" Focusable="False"/>
@@ -36,9 +36,9 @@
         <Label Content="Total points:" Grid.Column="2" HorizontalAlignment="Left" Margin="21,103,0,0" VerticalAlignment="Top" Width="104"/>
         <Label Content="Computer: " Grid.Column="2" HorizontalAlignment="Left" Margin="21,134,0,0" VerticalAlignment="Top" Width="69"/>
         <Label Content="Player:" Grid.Column="2" HorizontalAlignment="Left" Margin="21,160,0,0" VerticalAlignment="Top" Width="69"/>
-        <Label Content="0" Name="AIScoreLabel" Grid.Column="2" HorizontalAlignment="Left" Margin="98,134,0,0" VerticalAlignment="Top"/>
+        <Label Content="0" Name="ComputerScoreLabel" Grid.Column="2" HorizontalAlignment="Left" Margin="98,134,0,0" VerticalAlignment="Top"/>
         <Label Content="0" Name="PlayerScoreLabel" Grid.Column="2" HorizontalAlignment="Left" Margin="98,165,0,0" VerticalAlignment="Top"/>
-        <TextBox Name="BetBox" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="42,249,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="83" />
+        <TextBox Name="BetBox" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="42,249,0,0" TextWrapping="Wrap" Text="Place a bet!" VerticalAlignment="Top" Width="83" />
 
     </Grid>
 </Window>
