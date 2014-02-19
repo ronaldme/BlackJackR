@@ -49,7 +49,29 @@ namespace BlackJackR
                 AddMoneyToPlayer(true);
             }
 
+            CheckMoney();
+
             ResetGame();
+        }
+
+        private void CheckMoney()
+        {
+            if (MoneyPlayer <= 0)
+            {
+                Endgame endgame = new Endgame();
+                endgame.WinMessageLabel.Content = "You lost!";
+                endgame.RetryNameLabel.Content = this.NameLabel1.Content;
+                endgame.Show();
+                this.Close();
+            }
+            else if (MoneyComputer <= 0)
+            {
+                Endgame endgame = new Endgame();
+                endgame.WinMessageLabel.Content = "You won!";
+                endgame.RetryNameLabel.Content = this.NameLabel1.Content;
+                endgame.Show();
+                this.Close();
+            }
         }
 
         private void AddMoneyToPlayer(bool playerWon)
@@ -74,9 +96,10 @@ namespace BlackJackR
 
         private void CheckPlayerCardsForAce()
         {
-            if (PlayerAces.Count > 0)
+            if (PlayerAces.Any())
             {
-                PlayerAces.Remove(PlayerAces.First());
+                PlayerAces.Keys.First().Text = "1";
+                PlayerAces.Remove(PlayerAces.Keys.First());
                 ScorePlayer -= 10;
                 PlayerScoreLabel.Content = ScorePlayer.ToString();
 
@@ -86,11 +109,12 @@ namespace BlackJackR
             CalculateWinner();
         }
 
-        private void CheckComputerCardsForAce()
+        private  void CheckComputerCardsForAce()
         {
-            if (ComputerAces.Count > 0)
+            if (ComputerAces.Any())
             {
-                ComputerAces.Remove(ComputerAces.First());
+                ComputerAces.Keys.First().Text = "1";
+                ComputerAces.Remove(ComputerAces.Keys.First());
                 ScoreComputer -= 10;
                 ComputerScoreLabel.Content = ScoreComputer.ToString();
 

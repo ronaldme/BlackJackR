@@ -53,6 +53,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Endgame.xaml.cs">
+      <DependentUpon>Endgame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EnterUserName.xaml.cs">
+      <DependentUpon>EnterUserName.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.cs" />
     <Compile Include="MainWindowLogic.cs" />
     <Compile Include="NotificationWindow.xaml.cs">
@@ -61,6 +67,14 @@
     <Compile Include="RulesWindow.xaml.cs">
       <DependentUpon>RulesWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Endgame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EnterUserName.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

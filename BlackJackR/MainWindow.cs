@@ -27,9 +27,8 @@ namespace BlackJackR
         public bool RulesWindowIsOpen { get; set; }
         private int Min { get; set; }
         private int Max { get; set; }
-        private List<int> PlayerAces { get; set; }
-        private List<int> ComputerAces { get; set; } 
-
+        private Dictionary<TextBox, int> PlayerAces { get; set; }
+        private Dictionary<TextBox, int> ComputerAces { get; set; }
 
         public MainWindow()
         {
@@ -43,8 +42,8 @@ namespace BlackJackR
 
             Ran = new Random();
             CardValues = new List<int>();
-            PlayerAces = new List<int>();
-            ComputerAces = new List<int>();
+            PlayerAces = new Dictionary<TextBox, int>();
+            ComputerAces = new Dictionary<TextBox, int>();
             AddAllCards();
             InitTextboxes();
 
