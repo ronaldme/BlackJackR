@@ -19,11 +19,8 @@ namespace BlackJackR
 
             StartGame();
 
-            int min = CardValues.Min();
-            int max = CardValues.Max() + 1;
-
-            int randomCardFirst = 11;// Ran.Next(min, max);
-            int randomCardTwo = 11;// Ran.Next(min, max);
+            int randomCardFirst = 11;// Ran.Next(Min, Max);
+            int randomCardTwo = 11;// Ran.Next(Min, Max);
 
             if (randomCardFirst == 11) PlayerAces.Add(Card1PL, randomCardFirst);
             if (randomCardTwo == 11) PlayerAces.Add(Card2PL, randomCardTwo);
@@ -47,10 +44,8 @@ namespace BlackJackR
 
         private void HitButton_OnClick(object sender, RoutedEventArgs e)
         {
-            int min = CardValues.Min();
-            int max = CardValues.Max() + 1;
-
-            int randomCard = Ran.Next(min, max);
+            SplitButton.Visibility = Visibility.Hidden;
+            int randomCard = Ran.Next(Min, Max);
             if (randomCard == 11) PlayerAces.Add(TextBoxPlayer[CurrentTextBoxPlayer], randomCard);
             
             ScorePlayer += randomCard;
@@ -66,13 +61,12 @@ namespace BlackJackR
             }
             if (ScorePlayer > 21)
                 CheckPlayerCardsForAce();
+            if (ScorePlayer > 21)
+                CheckPlayerCardsForAce();
         }
 
         private void StandButton_OnClick(object sender, RoutedEventArgs e)
         {
-            Min = CardValues.Min();
-            Max = CardValues.Max() + 1;
-
             int randomCardFirst = Ran.Next(Min, Max);
             int randomCardTwo = Ran.Next(Min, Max);
             if (randomCardFirst == 11) ComputerAces.Add(Card1AI, randomCardFirst);
@@ -96,18 +90,68 @@ namespace BlackJackR
         {
             ShowSplitDeck();
 
+            int score = Convert.ToInt16(Card1PL.Text);
+            PlayerScoreSplitLeft = score;
+            PlayerScoreSplitRight = score;
+            PlayerScoreLabel.Content = PlayerScoreSplitLeft + "  :  " + PlayerScoreSplitRight;
         }
 
         private void HitButtonLeft_OnClick(object sender, RoutedEventArgs e)
         {
+            int randomCard = Ran.Next(Min, Max);
+            if (randomCard == 11) PlayerAcesLeft.Add(TextBoxPlayerSplitLeft[CurrentCountLeft], randomCard);
+            PlayerScoreSplitLeft += randomCard;
 
+            TextBoxPlayerSplitLeft[CurrentCountLeft].Text = randomCard.ToString();
+            CurrentCountLeft++;
+            PlayerScoreLabel.Content = PlayerScoreSplitLeft + "  :  " + PlayerScoreSplitRight;
+
+            if (CurrentCountLeft >= TextBoxPlayerSplitLeft.Count())
+            {
+                HitButtonLeft.Visibility = Visibility.Hidden;
+                StandButtonLeft.Visibility = Visibility.Hidden;
+                PressedStandButtons++;
+                CheckDone();
+            }
+            if (PlayerScoreSplitLeft > 21)
+                CheckPlayerCardsForAceLeft();
         }
 
         private void HitButtonRight_Click(object sender, RoutedEventArgs e)
         {
+            int randomCard = Ran.Next(Min, Max);
+            if (randomCard == 11) PlayerAcesRight.Add(TextBoxPlayerSplitRight[CurrentCountRight], randomCard);
+            PlayerScoreSplitRight += randomCard;
 
+            TextBoxPlayerSplitRight[CurrentCountRight].Text = randomCard.ToString();
+            CurrentCountRight++;
+            PlayerScoreLabel.Content = PlayerScoreSplitRight + "  :  " + PlayerScoreSplitRight;
+
+            if (CurrentCountRight >= TextBoxPlayerSplitRight.Count())
+            {
+                HitButtonRight.Visibility = Visibility.Hidden;
+                StandButtonRight.Visibility = Visibility.Hidden;
+                PressedStandButtons++;
+                CheckDone();
+            }
+            if (PlayerScoreSplitRight> 21)
+                CheckPlayerCardsForAceRight();
         }
 
-      
+        private void StandButtonLeft_OnClick(object sender, RoutedEventArgs e)
+        {
+            StandButtonLeft.Visibility = Visibility.Hidden;
+            HitButtonLeft.Visibility = Visibility.Hidden;
+            PressedStandButtons++;
+            CheckDone();
+        }
+
+        private void StandButtonRight_OnClick(object sender, RoutedEventArgs e)
+        {
+            StandButtonRight.Visibility = Visibility.Hidden;
+            HitButtonRight.Visibility = Visibility.Hidden;
+            PressedStandButtons++;
+            CheckDone();
+        }
     }
 }

@@ -38,7 +38,7 @@
         <Label Content="Computer: " Grid.Column="2" HorizontalAlignment="Left" Margin="21,134,0,0" VerticalAlignment="Top" Width="69"/>
         <Label Name="NameLabel2" Content="" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="0,160,0,0" VerticalAlignment="Top" Width="90" Grid.Column="2"/>
         <Label Content="0" Name="ComputerScoreLabel" Grid.Column="2" HorizontalAlignment="Left" Margin="98,134,0,0" VerticalAlignment="Top"/>
-        <Label Content="0" Name="PlayerScoreLabel" Grid.Column="2" HorizontalAlignment="Left" Margin="98,165,0,0" VerticalAlignment="Top"/>
+        <Label Content="0" Name="PlayerScoreLabel" Grid.Column="2" HorizontalAlignment="Left" Margin="98,160,0,0" VerticalAlignment="Top"/>
         <TextBox Name="BetBox" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="42,249,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="83" />
         <TextBox Name="CardSplitA1" FontSize="46" Visibility="Hidden" TextAlignment="Center" HorizontalAlignment="Left" Height="114" Margin="260,381,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
         <TextBox Name="CardSplitB1" FontSize="46" Visibility="Hidden" TextAlignment="Center"  HorizontalAlignment="Left" Height="114" Margin="370,381,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
@@ -49,6 +49,9 @@
         <TextBox Name="CardSplitB3" FontSize="46"  Visibility="Hidden" TextAlignment="Center" HorizontalAlignment="Left" Height="114" Margin="582,381,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
         <Button Name="HitButtonLeft" Visibility="Hidden" Content="Hit left!" HorizontalAlignment="Left" Margin="20,336,0,0" VerticalAlignment="Top" Width="70" Height="27" Click="HitButtonLeft_OnClick" Grid.Column="2"/>
         <Button Name="HitButtonRight" Visibility="Hidden" Content="Hit right!" HorizontalAlignment="Left" Margin="98,336,0,0" VerticalAlignment="Top" Width="70" Height="27" Click="HitButtonRight_Click" Grid.Column="2"/>
-
+        <Button Name="StandButtonLeft" Visibility="Hidden" Content="Stand left!" HorizontalAlignment="Left" Margin="20,455,0,0" VerticalAlignment="Top" Width="70" Height="27" Click="StandButtonLeft_OnClick" Grid.Column="2"/>
+        <Button Name="StandButtonRight" Visibility="Hidden" Content="Stand right!" HorizontalAlignment="Left" Margin="103,455,0,0" VerticalAlignment="Top" Width="70" Height="27" Click="StandButtonRight_OnClick" Grid.Column="2"/>
+        <Label Visibility="Hidden" Name="LabelLeft" Content="Label" HorizontalAlignment="Left" Margin="59,500,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.368,0" Width="91"/>
+        <Label Visibility="Hidden" Name="LabelRight" Content="Label" HorizontalAlignment="Left" Margin="582,500,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.368,0" Width="92"/>
     </Grid>
 </Window>

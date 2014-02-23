@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace BlackJackR
 {
@@ -124,6 +125,54 @@ namespace BlackJackR
             CalculateWinner();
         }
 
+        private void CheckPlayerCardsForAceLeft()
+        {
+            if (PlayerAcesLeft.Any())
+            {
+                PlayerAcesLeft.Keys.First().Text = "1";
+                PlayerAcesLeft.Remove(PlayerAcesLeft.Keys.First());
+                PlayerScoreSplitLeft -= 10;
+
+                PlayerScoreLabel.Content = PlayerScoreSplitLeft + "  :  " + PlayerScoreSplitRight;
+                return;
+            }
+
+            LabelLeft.Visibility = Visibility.Visible;
+            LabelLeft.Content = "Left deck lost!";
+            HitButtonLeft.Visibility = Visibility.Hidden;
+            StandButtonLeft.Visibility = Visibility.Hidden;
+
+            if (HasDeckLost == true)
+            {
+                ResetGame();
+            }
+            HasDeckLost = true;
+        }
+
+        private void CheckPlayerCardsForAceRight()
+        {
+            if (PlayerAcesRight.Any())
+            {
+                PlayerAcesRight.Keys.First().Text = "1";
+                PlayerAcesRight.Remove(PlayerAcesRight.Keys.First());
+                PlayerScoreSplitRight -= 10;
+
+                PlayerScoreLabel.Content = PlayerScoreSplitLeft + "  :  " + PlayerScoreSplitRight;
+                return;
+            }
+
+            LabelRight.Visibility = Visibility.Visible;
+            LabelRight.Content = "Right deck lost!";
+            HitButtonRight.Visibility = Visibility.Hidden;
+            StandButtonRight.Visibility = Visibility.Hidden;
+
+            if (HasDeckLost == true)
+            {
+                ResetGame();
+            }
+            HasDeckLost = true;
+        }
+
         private void CalculateComputerCard()
         {
             while (ScoreComputer < 17 && CurrentTextBoxComputer < TextBoxComputer.Count())
@@ -161,6 +210,14 @@ namespace BlackJackR
                     else
                         Thread.Yield();
                 }));
+            }
+        }
+
+        private void CheckDone()
+        {
+            if (PressedStandButtons == 2)
+            {
+                StandButton_OnClick(this, new RoutedEventArgs());
             }
         }
     }
