@@ -19,6 +19,7 @@ namespace BlackJackR
         private RulesWindow RulesWindow { get; set; }
         private List<int> CardValues { get; set; }
         private TextBox[] TextBoxPlayer { get; set; }
+        private TextBox[] TextBoxPlayerSplit { get; set; }
         private TextBox[] TextBoxComputer { get; set; }
         private int CurrentTextBoxPlayer { get; set; }
         private int CurrentTextBoxComputer { get; set; }
@@ -72,6 +73,19 @@ namespace BlackJackR
             CardValues.Add(10);
         }
 
+        private void ShowSplitDeck()
+        {
+            BorderSplit.Visibility = Visibility.Visible;
+            HitButtonLeft.Visibility = Visibility.Visible;
+            HitButtonRight.Visibility = Visibility.Visible;
+            HitButton.Visibility = Visibility.Hidden;
+
+            foreach (TextBox textBox in TextBoxPlayerSplit)
+            {
+                textBox.Visibility = Visibility.Visible;
+            }
+        }
+
         private void InitTextboxes()
         {
             TextBoxPlayer = new TextBox[6];
@@ -81,6 +95,13 @@ namespace BlackJackR
             TextBoxPlayer[3] = Card4PL;
             TextBoxPlayer[4] = Card5PL;
             TextBoxPlayer[5] = Card6PL;
+            TextBoxPlayerSplit = new TextBox[6];
+            TextBoxPlayerSplit[0] = CardSplitA1;
+            TextBoxPlayerSplit[1] = CardSplitA2;
+            TextBoxPlayerSplit[2] = CardSplitA3;
+            TextBoxPlayerSplit[3] = CardSplitB1;
+            TextBoxPlayerSplit[4] = CardSplitB2;
+            TextBoxPlayerSplit[5] = CardSplitB3;
 
             TextBoxComputer = new TextBox[6];
             TextBoxComputer[0] = Card1AI;
@@ -116,7 +137,6 @@ namespace BlackJackR
             {
                 textBox.Text = string.Empty;
             }
-
             PlayerScoreLabel.Content = "0";
             ComputerScoreLabel.Content = "0";
             EndGameMessageLabel.Content = "";
@@ -125,6 +145,16 @@ namespace BlackJackR
             HitButton.Visibility = Visibility.Visible;
             StandButton.Visibility = Visibility.Visible;
             BetBox.IsReadOnly = true;
+
+            // reset the split deck
+            BorderSplit.Visibility = Visibility.Hidden;
+            HitButtonLeft.Visibility = Visibility.Hidden;
+            HitButtonRight.Visibility = Visibility.Hidden;
+
+            foreach (TextBox textBox in TextBoxPlayerSplit)
+            {
+                textBox.Visibility = Visibility.Hidden;
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BlackJackR
@@ -50,7 +51,6 @@ namespace BlackJackR
             }
 
             CheckMoney();
-
             ResetGame();
         }
 
@@ -122,6 +122,46 @@ namespace BlackJackR
             }
 
             CalculateWinner();
+        }
+
+        private void CalculateComputerCard()
+        {
+            while (ScoreComputer < 17 && CurrentTextBoxComputer < TextBoxComputer.Count())
+            {
+                // Let the computer act like it's thinking
+                Thread.Sleep(1000);
+                int randomCard = Ran.Next(Min, Max);
+                if (randomCard == 11) ComputerAces.Add(TextBoxComputer[CurrentTextBoxComputer], randomCard);
+
+                ScoreComputer += randomCard;
+                Dispatch(randomCard);
+            }
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                CalculateWinner();
+                Thread.Yield();
+            }));
+        }
+
+        public void Dispatch(int card)
+        {
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                TextBoxComputer[CurrentTextBoxComputer].Text = card.ToString();
+                CurrentTextBoxComputer++;
+                ComputerScoreLabel.Content = ScoreComputer.ToString();
+            }));
+
+            if (ScoreComputer > 21)
+            {
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                    if (ComputerAces.Any())
+                        CheckComputerCardsForAce();
+                    else
+                        Thread.Yield();
+                }));
+            }
         }
     }
 }

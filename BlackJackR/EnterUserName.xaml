@@ -6,7 +6,7 @@
     <Grid Margin="0,0,0,4">
         <Label Content="Enter your name to play:" HorizontalAlignment="Left" Margin="80,26,0,0" VerticalAlignment="Top" Width="142"/>
         <TextBox Name="PlayerNameInput" HorizontalAlignment="Left" Height="23" Margin="85,68,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="137"/>
-        <Button Content="Play!" HorizontalAlignment="Left" Margin="113,105,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Button Content="Play!" HorizontalAlignment="Left" Margin="113,105,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" IsDefault="True" />
 
     </Grid>
 </Window>

@@ -22,8 +22,8 @@ namespace BlackJackR
             int min = CardValues.Min();
             int max = CardValues.Max() + 1;
 
-            int randomCardFirst = Ran.Next(min, max);
-            int randomCardTwo = Ran.Next(min, max);
+            int randomCardFirst = 11;// Ran.Next(min, max);
+            int randomCardTwo = 11;// Ran.Next(min, max);
 
             if (randomCardFirst == 11) PlayerAces.Add(Card1PL, randomCardFirst);
             if (randomCardTwo == 11) PlayerAces.Add(Card2PL, randomCardTwo);
@@ -34,20 +34,14 @@ namespace BlackJackR
             ScorePlayer = randomCardFirst + randomCardTwo;
             PlayerScoreLabel.Content = ScorePlayer.ToString();
 
-            if (randomCardFirst == randomCardTwo)
-            {
-                // split not implementer yet
-                // SplitButton.Visibility = Visibility.Visible;
-            }
-
             if (ScorePlayer == 21)
             {
                 BlackJackLabel.Visibility = Visibility.Visible;
                 HitButton.Visibility = Visibility.Hidden;
             }
-            else if (ScorePlayer > 21)
+            else if (randomCardFirst == randomCardTwo)
             {
-                CheckPlayerCardsForAce();
+                SplitButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -100,47 +94,20 @@ namespace BlackJackR
 
         private void SplitButton_OnClick(object sender, RoutedEventArgs e)
         {
-            // split cards, needs to be implemented.
+            ShowSplitDeck();
+
         }
 
-        private void CalculateComputerCard()
+        private void HitButtonLeft_OnClick(object sender, RoutedEventArgs e)
         {
-            while (ScoreComputer < 17 && CurrentTextBoxComputer < TextBoxComputer.Count())
-            {
-                // Let the computer act like its thinking
-                Thread.Sleep(1000);
-                int randomCard = Ran.Next(Min, Max);
-                if(randomCard == 11) ComputerAces.Add(TextBoxComputer[CurrentTextBoxComputer], randomCard);
 
-                ScoreComputer += randomCard;
-                Dispatch(randomCard);
-            }
-            this.Dispatcher.Invoke((Action)(() =>
-            {
-                CalculateWinner();
-                Thread.Yield();
-            }));
         }
 
-        public void Dispatch(int card)
+        private void HitButtonRight_Click(object sender, RoutedEventArgs e)
         {
-            this.Dispatcher.Invoke((Action)(() =>
-            {
-                TextBoxComputer[CurrentTextBoxComputer].Text = card.ToString();
-                CurrentTextBoxComputer++;
-                ComputerScoreLabel.Content = ScoreComputer.ToString();
-            }));
 
-            if (ScoreComputer > 21)
-            {
-                this.Dispatcher.Invoke((Action)(() =>
-                {
-                    if (ComputerAces.Any())
-                        CheckComputerCardsForAce();
-                    else
-                        Thread.Yield();
-                }));
-            }
         }
+
+      
     }
 }
