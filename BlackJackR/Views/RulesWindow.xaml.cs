@@ -25,7 +25,7 @@ namespace BlackJackR
         public RulesWindow(MainWindow window)
         {
             InitializeComponent();
-            Title = "Blackjack rules for BlackJackR";
+            Title = "BlackJackR rules!";
 
             Window = window;
         }

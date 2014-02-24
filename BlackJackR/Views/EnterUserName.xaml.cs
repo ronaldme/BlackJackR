@@ -19,13 +19,12 @@ namespace BlackJackR
     /// </summary>
     public partial class EnterUserName : Window
     {
-        private List<string> PlayerNames = new List<string>() { "Failing", "No Name Man", "Noob", "Skywalker" };
-        
-
+        private List<string> PlayerNames = new List<string>() { "Failing", "No Name Man", "Noob", "Skywalker", "Testing" };
 
         public EnterUserName()
         {
             InitializeComponent();
+            Title = "Enter your name!";
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -41,7 +40,8 @@ namespace BlackJackR
             else
             {
                 Random r = new Random();
-                int ran = r.Next(0, 3);
+                int ran = r.Next(0, 4);
+                
                 window.NameLabel1.Content = PlayerNames[ran] + " :";
                 window.NameLabel2.Content = PlayerNames[ran] + " :";
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using System.Windows.Controls;
 using System.Linq;
@@ -57,7 +58,7 @@ namespace BlackJackR
             PlayerAcesLeft = new Dictionary<TextBox, int>();
             PlayerAcesRight = new Dictionary<TextBox, int>();
             ComputerAces = new Dictionary<TextBox, int>();
-            AddAllCards();
+            AddBlackJackCards();
             InitTextboxes();
 
             CurrentTextBoxPlayer = 2;
@@ -66,17 +67,7 @@ namespace BlackJackR
             Max = CardValues.Max() + 1;
         }
 
-        private void RulesButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (!RulesWindowIsOpen)
-            {
-                RulesWindow = new RulesWindow(this);
-                RulesWindow.Show();
-                RulesWindowIsOpen = true;
-            }
-        }
-
-        private void AddAllCards()
+        private void AddBlackJackCards()
         {
             for (int i = 2; i < 12; i++)
             {
@@ -98,11 +89,13 @@ namespace BlackJackR
             StandButton.Visibility = Visibility.Hidden;
             SplitButton.Visibility = Visibility.Hidden;
 
-            foreach (TextBox textBox in TextBoxPlayerSplitLeft)
-            {
-                textBox.Visibility = Visibility.Visible;
-            }
-            foreach (TextBox textBox in TextBoxPlayerSplitRight)
+            ShowTextInTextBoxArray(TextBoxPlayerSplitLeft);
+            ShowTextInTextBoxArray(TextBoxPlayerSplitRight);
+        }
+
+        private void ShowTextInTextBoxArray(TextBox[] array)
+        {
+            foreach (TextBox textBox in array)
             {
                 textBox.Visibility = Visibility.Visible;
             }
@@ -110,7 +103,7 @@ namespace BlackJackR
 
         private void InitTextboxes()
         {
-            TextBoxPlayer = new TextBox[6];
+            TextBoxPlayer = new TextBox[6] ;
             TextBoxPlayer[0] = Card1PL;
             TextBoxPlayer[1] = Card2PL;
             TextBoxPlayer[2] = Card3PL;
@@ -160,39 +153,36 @@ namespace BlackJackR
             ComputerAces.Clear();
         }
 
+        private void ResetArrayValues(TextBox[] array, bool splitDeck)
+        {
+            foreach (TextBox textBox in array)
+            {
+                if(splitDeck)
+                    textBox.Visibility = Visibility.Hidden;
+                else
+                    textBox.Visibility = Visibility.Visible;
+                
+                textBox.Text = string.Empty;
+            }
+        }
+
         private void StartGame()
         {
-            foreach (TextBox textBox in TextBoxPlayerSplitLeft)
-            {
-                textBox.Visibility = Visibility.Hidden;
-                textBox.Text = string.Empty;
-            }
-            foreach (TextBox textBox in TextBoxPlayerSplitRight)
-            {
-                textBox.Visibility = Visibility.Hidden;
-                textBox.Text = string.Empty;
-            }
+            ResetArrayValues(TextBoxPlayerSplitLeft, true);
+            ResetArrayValues(TextBoxPlayerSplitRight, true);
+            ResetArrayValues(TextBoxPlayer, false);
+            ResetArrayValues(TextBoxComputer, false);
 
-            foreach (TextBox textBox in TextBoxPlayer)
-            {
-                textBox.Text = string.Empty;
-                textBox.Visibility = Visibility.Visible;
-            }
-            foreach (TextBox textBox in TextBoxComputer)
-            {
-                textBox.Text = string.Empty;
-                textBox.Visibility = Visibility.Visible;
-            }
-            LabelLeft.Visibility = Visibility.Hidden;
-            LabelRight.Visibility = Visibility.Hidden;
+            BetBox.IsReadOnly = true;
             PlayerScoreLabel.Content = "0";
             ComputerScoreLabel.Content = "0";
             EndGameMessageLabel.Content = "";
+            LabelLeft.Visibility = Visibility.Hidden;
+            LabelRight.Visibility = Visibility.Hidden;
             BlackJackLabel.Visibility = Visibility.Hidden;
             DealButton.Visibility = Visibility.Hidden;
             HitButton.Visibility = Visibility.Visible;
             StandButton.Visibility = Visibility.Visible;
-            BetBox.IsReadOnly = true;
 
             // reset the split deck
             BorderSplit.Visibility = Visibility.Hidden;

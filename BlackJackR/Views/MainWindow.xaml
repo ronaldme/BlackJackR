@@ -11,7 +11,7 @@
             <ColumnDefinition Width="143*"/>
         </Grid.ColumnDefinitions>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="2" Margin="0,225,0,0" VerticalAlignment="Top" Width="925" Grid.ColumnSpan="3" RenderTransformOrigin="0.5,0.5"/>
-        <Button Name="HitButton" Content="Hit!" Visibility="Hidden" HorizontalAlignment="Left" Margin="42,336,0,0" VerticalAlignment="Top" Width="94" Click="HitButton_OnClick" Height="27" RenderTransformOrigin="0.574,-0.259" Grid.Column="2"/>
+        <Button Name="HitButton" IsDefault="True" Content="Hit!" Visibility="Hidden" HorizontalAlignment="Left" Margin="42,336,0,0" VerticalAlignment="Top" Width="94" Click="HitButton_OnClick" Height="27" RenderTransformOrigin="0.574,-0.259" Grid.Column="2"/>
         <Button Name="SplitButton" Content="Split!" Visibility="Hidden" HorizontalAlignment="Left" Margin="42,455,0,0" VerticalAlignment="Top" Width="94" Click="SplitButton_OnClick" Height="27" RenderTransformOrigin="0.574,-0.259" Grid.Column="2"/>
         <Button Name="StandButton" Content="Stand!" Visibility="Hidden" Margin="42,381,44,0" VerticalAlignment="Top" Click="StandButton_OnClick" Height="27" Grid.Column="2"/>
         <Label Name="NameLabel1" Content="Player: " HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="654,55,0,0" VerticalAlignment="Top" Width="94" Height="26" Grid.ColumnSpan="3"/>
@@ -48,7 +48,7 @@
         <TextBox Name="CardSplitA3" FontSize="46" Visibility="Hidden" TextAlignment="Center" HorizontalAlignment="Left" Height="114" Margin="59,381,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
         <TextBox Name="CardSplitB3" FontSize="46"  Visibility="Hidden" TextAlignment="Center" HorizontalAlignment="Left" Height="114" Margin="582,381,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Focusable="False"/>
         <Button Name="HitButtonLeft" Visibility="Hidden" Content="Hit left!" HorizontalAlignment="Left" Margin="20,336,0,0" VerticalAlignment="Top" Width="70" Height="27" Click="HitButtonLeft_OnClick" Grid.Column="2"/>
-        <Button Name="HitButtonRight" Visibility="Hidden" Content="Hit right!" HorizontalAlignment="Left" Margin="98,336,0,0" VerticalAlignment="Top" Width="70" Height="27" Click="HitButtonRight_Click" Grid.Column="2"/>
+        <Button Name="HitButtonRight" Visibility="Hidden" Content="Hit right!" HorizontalAlignment="Left" Margin="98,336,0,0" VerticalAlignment="Top" Width="70" Height="27" Click="HitButtonRight_OnClick" Grid.Column="2"/>
         <Button Name="StandButtonLeft" Visibility="Hidden" Content="Stand left!" HorizontalAlignment="Left" Margin="20,455,0,0" VerticalAlignment="Top" Width="70" Height="27" Click="StandButtonLeft_OnClick" Grid.Column="2"/>
         <Button Name="StandButtonRight" Visibility="Hidden" Content="Stand right!" HorizontalAlignment="Left" Margin="103,455,0,0" VerticalAlignment="Top" Width="70" Height="27" Click="StandButtonRight_OnClick" Grid.Column="2"/>
         <Label Visibility="Hidden" Name="LabelLeft" Content="Label" HorizontalAlignment="Left" Margin="59,500,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.368,0" Width="91"/>

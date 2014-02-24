@@ -15,67 +15,74 @@ namespace BlackJackR
     {
         private void DealButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (NotificationIsOpen || !CheckUserInput()) return;
-
-            StartGame();
-
-            int randomCardFirst = 11;// Ran.Next(Min, Max);
-            int randomCardTwo = 11;// Ran.Next(Min, Max);
-
-            if (randomCardFirst == 11) PlayerAces.Add(Card1PL, randomCardFirst);
-            if (randomCardTwo == 11) PlayerAces.Add(Card2PL, randomCardTwo);
-
-            Card1PL.Text = randomCardFirst.ToString();
-            Card2PL.Text = randomCardTwo.ToString();
-
-            ScorePlayer = randomCardFirst + randomCardTwo;
-            PlayerScoreLabel.Content = ScorePlayer.ToString();
-
-            if (ScorePlayer == 21)
+            if (NotificationIsOpen || !CheckUserInput())
             {
-                BlackJackLabel.Visibility = Visibility.Visible;
-                HitButton.Visibility = Visibility.Hidden;
+                return;
             }
-            else if (randomCardFirst == randomCardTwo)
+            else
             {
-                SplitButton.Visibility = Visibility.Visible;
+                StartGame();
+                int randomCardOne = Ran.Next(Min, Max);
+                int randomCardTwo = Ran.Next(Min, Max);
+
+                AddAces(randomCardOne, Card1PL, true);
+                AddAces(randomCardTwo, Card2PL, true);
+
+                Card1PL.Text = randomCardOne.ToString();
+                Card2PL.Text = randomCardTwo.ToString();
+
+                ScorePlayer = randomCardOne + randomCardTwo;
+                PlayerScoreLabel.Content = ScorePlayer.ToString();
+
+                if (ScorePlayer == 21)
+                {
+                    BlackJackLabel.Visibility = Visibility.Visible;
+                    HitButton.Visibility = Visibility.Hidden;
+                }
+                else if (randomCardOne == randomCardTwo)
+                {
+                    SplitButton.Visibility = Visibility.Visible;
+                }
             }
         }
 
         private void HitButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (ScorePlayer > 21)
+                CheckPlayerCardsForAce();
+
             SplitButton.Visibility = Visibility.Hidden;
+
             int randomCard = Ran.Next(Min, Max);
-            if (randomCard == 11) PlayerAces.Add(TextBoxPlayer[CurrentTextBoxPlayer], randomCard);
+            AddAces(randomCard, TextBoxPlayer[CurrentTextBoxPlayer], true);
             
             ScorePlayer += randomCard;
             PlayerScoreLabel.Content = ScorePlayer.ToString();
-
             TextBoxPlayer[CurrentTextBoxPlayer].Text = randomCard.ToString();
             CurrentTextBoxPlayer++;
 
+            if (ScorePlayer > 21)
+            {
+                CheckPlayerCardsForAce();
+            }
             if (CurrentTextBoxPlayer >= TextBoxPlayer.Count())
             {
                 HitButton.Visibility = Visibility.Hidden;
                 StandButton_OnClick(sender, new RoutedEventArgs());
             }
-            if (ScorePlayer > 21)
-                CheckPlayerCardsForAce();
-            if (ScorePlayer > 21)
-                CheckPlayerCardsForAce();
         }
 
         private void StandButton_OnClick(object sender, RoutedEventArgs e)
         {
-            int randomCardFirst = Ran.Next(Min, Max);
+            int randomcardOne = Ran.Next(Min, Max);
             int randomCardTwo = Ran.Next(Min, Max);
-            if (randomCardFirst == 11) ComputerAces.Add(Card1AI, randomCardFirst);
-            if (randomCardTwo == 11) ComputerAces.Add(Card2AI, randomCardTwo);
+            AddAces(randomcardOne, Card1AI, false);
+            AddAces(randomCardTwo, Card2AI, false);
 
-            ScoreComputer = randomCardFirst + randomCardTwo;
+            ScoreComputer = randomcardOne + randomCardTwo;
             ComputerScoreLabel.Content = ScoreComputer.ToString();
 
-            Card1AI.Text = randomCardFirst.ToString();
+            Card1AI.Text = randomcardOne.ToString();
             Card2AI.Text = randomCardTwo.ToString();
             
             if (ScoreComputer > 21)
@@ -94,6 +101,16 @@ namespace BlackJackR
             PlayerScoreSplitLeft = score;
             PlayerScoreSplitRight = score;
             PlayerScoreLabel.Content = PlayerScoreSplitLeft + "  :  " + PlayerScoreSplitRight;
+        }
+
+        private void RulesButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (!RulesWindowIsOpen)
+            {
+                RulesWindow = new RulesWindow(this);
+                RulesWindow.Show();
+                RulesWindowIsOpen = true;
+            }
         }
 
         private void HitButtonLeft_OnClick(object sender, RoutedEventArgs e)
@@ -117,7 +134,7 @@ namespace BlackJackR
                 CheckPlayerCardsForAceLeft();
         }
 
-        private void HitButtonRight_Click(object sender, RoutedEventArgs e)
+        private void HitButtonRight_OnClick(object sender, RoutedEventArgs e)
         {
             int randomCard = Ran.Next(Min, Max);
             if (randomCard == 11) PlayerAcesRight.Add(TextBoxPlayerSplitRight[CurrentCountRight], randomCard);

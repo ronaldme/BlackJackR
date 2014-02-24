@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace BlackJackR
 {
@@ -92,6 +93,17 @@ namespace BlackJackR
 
                 MoneyPlayer -= Convert.ToInt16(BetBox.Text);
                 MoneyPlayerLabel.Content = "€" + MoneyPlayer.ToString();
+            }
+        }
+
+        private void AddAces(int ace, TextBox box, bool player)
+        {
+            if (ace == 11)
+            {
+                if(player)
+                    PlayerAces.Add(Card1PL, ace);
+                else
+                    ComputerAces.Add(Card2PL, ace);
             }
         }
 
