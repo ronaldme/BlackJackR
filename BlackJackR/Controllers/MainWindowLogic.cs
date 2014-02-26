@@ -96,23 +96,22 @@ namespace BlackJackR
             }
         }
 
-        private void AddAces(int ace, TextBox box, bool player)
+        private void AddAces(int card, bool player)
         {
-            if (ace == 11)
+            if (card == 11)
             {
-                if(player)
-                    PlayerAces.Add(Card1PL, ace);
+                if (player)
+                    PlayerAcesCount++;
                 else
-                    ComputerAces.Add(Card2PL, ace);
+                    ComputerAcesCount++;
             }
         }
 
         private void CheckPlayerCardsForAce()
         {
-            if (PlayerAces.Any())
+            if (PlayerAcesCount > 0)
             {
-                PlayerAces.Keys.First().Text = "1";
-                PlayerAces.Remove(PlayerAces.Keys.First());
+                PlayerAcesCount--;
                 ScorePlayer -= 10;
                 PlayerScoreLabel.Content = ScorePlayer.ToString();
 
@@ -124,10 +123,9 @@ namespace BlackJackR
 
         private  void CheckComputerCardsForAce()
         {
-            if (ComputerAces.Any())
+            if (ComputerAcesCount > 0)
             {
-                ComputerAces.Keys.First().Text = "1";
-                ComputerAces.Remove(ComputerAces.Keys.First());
+                ComputerAcesCount--;
                 ScoreComputer -= 10;
                 ComputerScoreLabel.Content = ScoreComputer.ToString();
 
@@ -139,20 +137,12 @@ namespace BlackJackR
 
         private void CheckPlayerCardsForAceLeft()
         {
-            if (PlayerAcesLeft.Any())
-            {
-                PlayerAcesLeft.Keys.First().Text = "1";
-                PlayerAcesLeft.Remove(PlayerAcesLeft.Keys.First());
-                PlayerScoreSplitLeft -= 10;
-
-                PlayerScoreLabel.Content = PlayerScoreSplitLeft + "  :  " + PlayerScoreSplitRight;
-                return;
-            }
-
             LabelLeft.Visibility = Visibility.Visible;
             LabelLeft.Content = "Left deck lost!";
             HitButtonLeft.Visibility = Visibility.Hidden;
             StandButtonLeft.Visibility = Visibility.Hidden;
+            MoneyPlayer -= Convert.ToInt16(BetBox.Text);
+            MoneyPlayerLabel.Content = "€" + MoneyPlayer.ToString();
 
             if (HasDeckLost == true)
             {
@@ -163,20 +153,14 @@ namespace BlackJackR
 
         private void CheckPlayerCardsForAceRight()
         {
-            if (PlayerAcesRight.Any())
-            {
-                PlayerAcesRight.Keys.First().Text = "1";
-                PlayerAcesRight.Remove(PlayerAcesRight.Keys.First());
-                PlayerScoreSplitRight -= 10;
-
-                PlayerScoreLabel.Content = PlayerScoreSplitLeft + "  :  " + PlayerScoreSplitRight;
-                return;
-            }
+            //PlayerScoreLabel.Content = PlayerScoreSplitLeft + "  :  " + PlayerScoreSplitRight;
 
             LabelRight.Visibility = Visibility.Visible;
             LabelRight.Content = "Right deck lost!";
             HitButtonRight.Visibility = Visibility.Hidden;
             StandButtonRight.Visibility = Visibility.Hidden;
+            MoneyPlayer -= Convert.ToInt16(BetBox.Text);
+            MoneyPlayerLabel.Content = "€" + MoneyPlayer.ToString();
 
             if (HasDeckLost == true)
             {
@@ -187,13 +171,13 @@ namespace BlackJackR
 
         private void CalculateComputerCard()
         {
-            while (ScoreComputer < 17 && CurrentTextBoxComputer < TextBoxComputer.Count())
+            while (ScoreComputer < 17 && CurrentImageComputer < ImagesComputer.Count())
             {
                 // Let the computer act like it's thinking
                 Thread.Sleep(1000);
-                int randomCard = Ran.Next(Min, Max);
-                if (randomCard == 11) ComputerAces.Add(TextBoxComputer[CurrentTextBoxComputer], randomCard);
-
+                int randomCard = Ran.Next(2, 11);
+                AddAces(randomCard, false);
+                
                 ScoreComputer += randomCard;
                 Dispatch(randomCard);
             }
@@ -208,8 +192,9 @@ namespace BlackJackR
         {
             this.Dispatcher.Invoke((Action)(() =>
             {
-                TextBoxComputer[CurrentTextBoxComputer].Text = card.ToString();
-                CurrentTextBoxComputer++;
+                ImagesComputer[CurrentImageComputer].Visibility = Visibility.Visible;
+                ImagesComputer[CurrentImageComputer].Source = CardImages.First(x => x.Value == card).Key;
+                CurrentImageComputer++;
                 ComputerScoreLabel.Content = ScoreComputer.ToString();
             }));
 
@@ -217,7 +202,7 @@ namespace BlackJackR
             {
                 this.Dispatcher.Invoke((Action)(() =>
                 {
-                    if (ComputerAces.Any())
+                    if (ComputerAcesCount > 0)
                         CheckComputerCardsForAce();
                     else
                         Thread.Yield();

@@ -15,8 +15,10 @@ namespace BlackJackR
     {
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
-           EnterUserName userName = new EnterUserName();
-           userName.Show();
+           //EnterUserName userName = new EnterUserName();
+           //userName.Show();
+            MainWindow m = new MainWindow();
+            m.Show();
         }
     }
 }

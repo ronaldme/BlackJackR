@@ -123,7 +123,64 @@
   <ItemGroup>
     <None Include="Config\App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\backcomputer.png" />
+    <Resource Include="Images\backplayer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\c1.png" />
+    <Resource Include="Images\c10.png" />
+    <Resource Include="Images\c2.png" />
+    <Resource Include="Images\c3.png" />
+    <Resource Include="Images\c4.png" />
+    <Resource Include="Images\c5.png" />
+    <Resource Include="Images\c6.png" />
+    <Resource Include="Images\c7.png" />
+    <Resource Include="Images\c8.png" />
+    <Resource Include="Images\c9.png" />
+    <Resource Include="Images\cj.png" />
+    <Resource Include="Images\ck.png" />
+    <Resource Include="Images\cq.png" />
+    <Resource Include="Images\d1.png" />
+    <Resource Include="Images\d10.png" />
+    <Resource Include="Images\d2.png" />
+    <Resource Include="Images\d3.png" />
+    <Resource Include="Images\d4.png" />
+    <Resource Include="Images\d5.png" />
+    <Resource Include="Images\d6.png" />
+    <Resource Include="Images\d7.png" />
+    <Resource Include="Images\d8.png" />
+    <Resource Include="Images\d9.png" />
+    <Resource Include="Images\dj.png" />
+    <Resource Include="Images\dk.png" />
+    <Resource Include="Images\dq.png" />
+    <Resource Include="Images\h1.png" />
+    <Resource Include="Images\h10.png" />
+    <Resource Include="Images\h2.png" />
+    <Resource Include="Images\h3.png" />
+    <Resource Include="Images\h4.png" />
+    <Resource Include="Images\h5.png" />
+    <Resource Include="Images\h6.png" />
+    <Resource Include="Images\h7.png" />
+    <Resource Include="Images\h8.png" />
+    <Resource Include="Images\h9.png" />
+    <Resource Include="Images\hj.png" />
+    <Resource Include="Images\hk.png" />
+    <Resource Include="Images\hq.png" />
+    <Resource Include="Images\s1.png" />
+    <Resource Include="Images\s10.png" />
+    <Resource Include="Images\s2.png" />
+    <Resource Include="Images\s3.png" />
+    <Resource Include="Images\s4.png" />
+    <Resource Include="Images\s5.png" />
+    <Resource Include="Images\s6.png" />
+    <Resource Include="Images\s7.png" />
+    <Resource Include="Images\s8.png" />
+    <Resource Include="Images\s9.png" />
+    <Resource Include="Images\sj.png" />
+    <Resource Include="Images\sk.png" />
+    <Resource Include="Images\sq.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -4,6 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using System.Windows.Controls;
 using System.Linq;
+using System.Windows.Media.Imaging;
 
 namespace BlackJackR
 {
@@ -15,31 +16,31 @@ namespace BlackJackR
     {
         private Random Ran { get; set; }
         private RulesWindow RulesWindow { get; set; }
-        private List<int> CardValues { get; set; }
-        private TextBox[] TextBoxPlayer { get; set; }
-        private TextBox[] TextBoxPlayerSplitLeft { get; set; }
-        private TextBox[] TextBoxPlayerSplitRight { get; set; }
-        private TextBox[] TextBoxComputer { get; set; }
+        private Dictionary<BitmapImage, int> CardImages { get; set; }
+        private List<Image> ImagesPlayer { get; set; }
+        private List<Image> ImagesComputer { get; set; }
         private NotificationWindow Notification { get; set; }
-        private Dictionary<TextBox, int> PlayerAces { get; set; }
-        private Dictionary<TextBox, int> PlayerAcesLeft { get; set; }
-        private Dictionary<TextBox, int> PlayerAcesRight { get; set; }
-        private Dictionary<TextBox, int> ComputerAces { get; set; }
+        private BitmapImage PlayerImageBack { get; set; }
+        private BitmapImage ComputerImageBack { get; set; }
+        private int PlayerAcesCount { get; set; }
+        private int ComputerAcesCount { get; set; }
         private int MoneyComputer { get; set; }
         private int MoneyPlayer { get; set; }
         private int ScorePlayer { get; set; }
         private int ScoreComputer { get; set; }
+        private int CurrentImagePlayer { get; set; }
+        private int CurrentImageComputer { get; set; }
+        public bool NotificationIsOpen { get; set; }
+        public bool RulesWindowIsOpen { get; set; }
+
+        // For split deck
+        private int PlayerAcesCountLeft { get; set; }
+        private int PlayerAcesCountRight { get; set; }
         private int PlayerScoreSplitLeft { get; set; }
         private int PlayerScoreSplitRight { get; set; }
         private int PressedStandButtons { get; set; }
         private int CurrentCountLeft { get; set; }
         private int CurrentCountRight { get; set; }
-        private int CurrentTextBoxPlayer { get; set; }
-        private int CurrentTextBoxComputer { get; set; }
-        public bool NotificationIsOpen { get; set; }
-        public bool RulesWindowIsOpen { get; set; }
-        private int Min { get; set; }
-        private int Max { get; set; }
         private bool HasDeckLost { get; set; }
 
         public MainWindow()
@@ -52,30 +53,42 @@ namespace BlackJackR
             MoneyPlayerLabel.Content = "€" + MoneyPlayer.ToString();
             MoneyComputerLabel.Content = "€" + MoneyComputer.ToString();
 
+            CardImages = new Dictionary<BitmapImage, int>();
+            ImagesPlayer = new List<Image>();
+            ImagesComputer = new List<Image>();
             Ran = new Random();
-            CardValues = new List<int>();
-            PlayerAces = new Dictionary<TextBox, int>();
-            PlayerAcesLeft = new Dictionary<TextBox, int>();
-            PlayerAcesRight = new Dictionary<TextBox, int>();
-            ComputerAces = new Dictionary<TextBox, int>();
-            AddBlackJackCards();
-            InitTextboxes();
 
-            CurrentTextBoxPlayer = 2;
-            CurrentTextBoxComputer = 2;
-            Min = CardValues.Min();
-            Max = CardValues.Max() + 1;
+            AddBlackJackCards();
+            InitImages();
+
+            PlayerImageBack = CreateImage("backplayer");
+            ComputerImageBack = CreateImage("backcomputer");
+            Card1PImage.Source = PlayerImageBack;
+            Card2PImage.Source = PlayerImageBack;
+            Card1CImage.Source = PlayerImageBack;
+            Card2CImage.Source = PlayerImageBack;
+        }
+
+        private BitmapImage CreateImage(string imageName)
+        {
+            return new BitmapImage(new Uri("/Images/" + imageName + ".png", UriKind.Relative));
         }
 
         private void AddBlackJackCards()
         {
-            for (int i = 2; i < 12; i++)
-            {
-                CardValues.Add(i);
-            }
-            CardValues.Add(10);
-            CardValues.Add(10);
-            CardValues.Add(10);
+            CardImages.Add(CreateImage("h2"), 2);
+            CardImages.Add(CreateImage("h3"), 3);
+            CardImages.Add(CreateImage("h4"), 4);
+            CardImages.Add(CreateImage("h5"), 5);
+            CardImages.Add(CreateImage("h6"), 6);
+            CardImages.Add(CreateImage("h7"), 7);
+            CardImages.Add(CreateImage("h8"), 8);
+            CardImages.Add(CreateImage("h9"), 9);
+            CardImages.Add(CreateImage("h10"), 10);
+            CardImages.Add(CreateImage("hj"), 10);
+            CardImages.Add(CreateImage("hk"), 10);
+            CardImages.Add(CreateImage("hq"), 10);
+            CardImages.Add(CreateImage("h1"), 11);
         }
 
         private void ShowSplitDeck()
@@ -89,49 +102,21 @@ namespace BlackJackR
             StandButton.Visibility = Visibility.Hidden;
             SplitButton.Visibility = Visibility.Hidden;
 
-            ShowTextInTextBoxArray(TextBoxPlayerSplitLeft);
-            ShowTextInTextBoxArray(TextBoxPlayerSplitRight);
+            //ShowTextInTextBoxArray(TextBoxPlayerSplitLeft);
+            //ShowTextInTextBoxArray(TextBoxPlayerSplitRight);
         }
 
-        private void ShowTextInTextBoxArray(TextBox[] array)
+        private void InitImages()
         {
-            foreach (TextBox textBox in array)
-            {
-                textBox.Visibility = Visibility.Visible;
-            }
-        }
+            ImagesPlayer.Add(Card3PImage);
+            ImagesPlayer.Add(Card4PImage);
+            ImagesPlayer.Add(Card5PImage);
+            ImagesPlayer.Add(Card6PImage);
 
-        private void InitTextboxes()
-        {
-            TextBoxPlayer = new TextBox[6] ;
-            TextBoxPlayer[0] = Card1PL;
-            TextBoxPlayer[1] = Card2PL;
-            TextBoxPlayer[2] = Card3PL;
-            TextBoxPlayer[3] = Card4PL;
-            TextBoxPlayer[4] = Card5PL;
-            TextBoxPlayer[5] = Card6PL;
-
-            TextBoxPlayerSplitLeft = new TextBox[5];
-            TextBoxPlayerSplitLeft[0] = Card3PL;
-            TextBoxPlayerSplitLeft[1] = Card5PL;
-            TextBoxPlayerSplitLeft[2] = CardSplitA1;
-            TextBoxPlayerSplitLeft[3] = CardSplitA2;
-            TextBoxPlayerSplitLeft[4] = CardSplitA3;
-
-            TextBoxPlayerSplitRight = new TextBox[5];
-            TextBoxPlayerSplitRight[0] = Card4PL;
-            TextBoxPlayerSplitRight[1] = Card6PL;
-            TextBoxPlayerSplitRight[2] = CardSplitB1;
-            TextBoxPlayerSplitRight[3] = CardSplitB2;
-            TextBoxPlayerSplitRight[4] = CardSplitB3;
-
-            TextBoxComputer = new TextBox[6];
-            TextBoxComputer[0] = Card1AI;
-            TextBoxComputer[1] = Card2AI;
-            TextBoxComputer[2] = Card3AI;
-            TextBoxComputer[3] = Card4AI;
-            TextBoxComputer[4] = Card5AI;
-            TextBoxComputer[5] = Card6AI;
+            ImagesComputer.Add(Card3CImage);
+            ImagesComputer.Add(Card4CImage);
+            ImagesComputer.Add(Card5CImage);
+            ImagesComputer.Add(Card6CImage);
         }
 
         private void ResetGame()
@@ -140,8 +125,8 @@ namespace BlackJackR
             SplitButton.Visibility = Visibility.Hidden;
             HitButton.Visibility = Visibility.Hidden;
             StandButton.Visibility = Visibility.Hidden;
-            CurrentTextBoxPlayer = 2;
-            CurrentTextBoxComputer = 2;
+            CurrentImagePlayer = 0;
+            CurrentImageComputer = 0;
             CurrentCountLeft = 0;
             CurrentCountRight = 0;
             ScorePlayer = 0;
@@ -149,29 +134,19 @@ namespace BlackJackR
             PressedStandButtons = 0;
             BetBox.IsReadOnly = false;
             HasDeckLost = false;
-            PlayerAces.Clear();
-            ComputerAces.Clear();
         }
 
-        private void ResetArrayValues(TextBox[] array, bool splitDeck)
+        private void ResetImages()
         {
-            foreach (TextBox textBox in array)
-            {
-                if(splitDeck)
-                    textBox.Visibility = Visibility.Hidden;
-                else
-                    textBox.Visibility = Visibility.Visible;
-                
-                textBox.Text = string.Empty;
-            }
+            ImagesPlayer.ForEach(x => x.Visibility = Visibility.Hidden);
+            ImagesComputer.ForEach(x => x.Visibility = Visibility.Hidden);
         }
 
         private void StartGame()
         {
-            ResetArrayValues(TextBoxPlayerSplitLeft, true);
-            ResetArrayValues(TextBoxPlayerSplitRight, true);
-            ResetArrayValues(TextBoxPlayer, false);
-            ResetArrayValues(TextBoxComputer, false);
+            ResetImages();
+            Card1CImage.Source = PlayerImageBack;
+            Card2CImage.Source = PlayerImageBack;
 
             BetBox.IsReadOnly = true;
             PlayerScoreLabel.Content = "0";
