@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace BlackJackR
 {
@@ -33,6 +34,13 @@ namespace BlackJackR
                 Notification.Show();
                 return false;
             }
+        }
+
+        private BitmapImage PickRandomCard(BitmapImage[] images)
+        {
+            int random = Ran.Next(0, images.Count());
+
+            return images[random];
         }
 
         private void CalculateWinner()
@@ -135,14 +143,27 @@ namespace BlackJackR
             CalculateWinner();
         }
 
-        private void CheckPlayerCardsForAceLeft()
+        private void CheckForAceSplitLeft()
+        {
+            if (PlayerAcesCountLeft > 0)
+            {
+                PlayerAcesCountLeft--;
+                PlayerScoreSplitLeft -= 10;
+                PlayerScoreLabel.Content = PlayerScoreSplitLeft + "  :  " + PlayerScoreSplitRight;
+
+                return;
+            }
+            ChangeDeckLeft();
+        }
+
+        private void ChangeDeckLeft()
         {
             LabelLeft.Visibility = Visibility.Visible;
             LabelLeft.Content = "Left deck lost!";
             HitButtonLeft.Visibility = Visibility.Hidden;
             StandButtonLeft.Visibility = Visibility.Hidden;
             MoneyPlayer -= Convert.ToInt16(BetBox.Text);
-            MoneyPlayerLabel.Content = "€" + MoneyPlayer.ToString();
+            MoneyPlayerLabel.Content = "€" + MoneyPlayer;
 
             if (HasDeckLost == true)
             {
@@ -151,16 +172,27 @@ namespace BlackJackR
             HasDeckLost = true;
         }
 
-        private void CheckPlayerCardsForAceRight()
+        private void CheckForAceSplitRight()
         {
-            //PlayerScoreLabel.Content = PlayerScoreSplitLeft + "  :  " + PlayerScoreSplitRight;
+            if (PlayerAcesCountRight > 0)
+            {
+                PlayerAcesCountRight--;
+                PlayerScoreSplitRight-= 10;
+                PlayerScoreLabel.Content = PlayerScoreSplitLeft + "  :  " + PlayerScoreSplitRight;
 
+                return;
+            }
+            ChangeDeckRight();
+        }
+
+        private void ChangeDeckRight()
+        {
             LabelRight.Visibility = Visibility.Visible;
             LabelRight.Content = "Right deck lost!";
             HitButtonRight.Visibility = Visibility.Hidden;
             StandButtonRight.Visibility = Visibility.Hidden;
             MoneyPlayer -= Convert.ToInt16(BetBox.Text);
-            MoneyPlayerLabel.Content = "€" + MoneyPlayer.ToString();
+            MoneyPlayerLabel.Content = "€" + MoneyPlayer;
 
             if (HasDeckLost == true)
             {
@@ -193,7 +225,7 @@ namespace BlackJackR
             this.Dispatcher.Invoke((Action)(() =>
             {
                 ImagesComputer[CurrentImageComputer].Visibility = Visibility.Visible;
-                ImagesComputer[CurrentImageComputer].Source = CardImages.First(x => x.Value == card).Key;
+                ImagesComputer[CurrentImageComputer].Source = PickRandomCard(CardImages.First(x => x.Key == card).Value);
                 CurrentImageComputer++;
                 ComputerScoreLabel.Content = ScoreComputer.ToString();
             }));

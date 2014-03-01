@@ -16,7 +16,7 @@ namespace BlackJackR
     {
         private Random Ran { get; set; }
         private RulesWindow RulesWindow { get; set; }
-        private Dictionary<BitmapImage, int> CardImages { get; set; }
+        private Dictionary<int, BitmapImage[]> CardImages { get; set; }
         private List<Image> ImagesPlayer { get; set; }
         private List<Image> ImagesComputer { get; set; }
         private NotificationWindow Notification { get; set; }
@@ -33,7 +33,9 @@ namespace BlackJackR
         public bool NotificationIsOpen { get; set; }
         public bool RulesWindowIsOpen { get; set; }
 
-        // For split deck
+        // Split deck
+        private List<Image> SplitDeckLeftImages { get; set; }
+        private List<Image> SplitDeckRightImages { get; set; }
         private int PlayerAcesCountLeft { get; set; }
         private int PlayerAcesCountRight { get; set; }
         private int PlayerScoreSplitLeft { get; set; }
@@ -42,6 +44,7 @@ namespace BlackJackR
         private int CurrentCountLeft { get; set; }
         private int CurrentCountRight { get; set; }
         private bool HasDeckLost { get; set; }
+        private int SplitValue { get; set; }
 
         public MainWindow()
         {
@@ -53,13 +56,16 @@ namespace BlackJackR
             MoneyPlayerLabel.Content = "€" + MoneyPlayer.ToString();
             MoneyComputerLabel.Content = "€" + MoneyComputer.ToString();
 
-            CardImages = new Dictionary<BitmapImage, int>();
+            CardImages = new Dictionary<int, BitmapImage[]>();
             ImagesPlayer = new List<Image>();
             ImagesComputer = new List<Image>();
+            SplitDeckLeftImages = new List<Image>();
+            SplitDeckRightImages = new List<Image>();
             Ran = new Random();
 
             AddBlackJackCards();
             InitImages();
+            InitImagesSplitDeck();
 
             PlayerImageBack = CreateImage("backplayer");
             ComputerImageBack = CreateImage("backcomputer");
@@ -74,21 +80,28 @@ namespace BlackJackR
             return new BitmapImage(new Uri("/Images/" + imageName + ".png", UriKind.Relative));
         }
 
+        private BitmapImage[] CreateImagesArray(BitmapImage one, BitmapImage two, BitmapImage three, BitmapImage four)
+        {
+            return new BitmapImage[4] { one, two, three, four };
+        }
+
         private void AddBlackJackCards()
         {
-            CardImages.Add(CreateImage("h2"), 2);
-            CardImages.Add(CreateImage("h3"), 3);
-            CardImages.Add(CreateImage("h4"), 4);
-            CardImages.Add(CreateImage("h5"), 5);
-            CardImages.Add(CreateImage("h6"), 6);
-            CardImages.Add(CreateImage("h7"), 7);
-            CardImages.Add(CreateImage("h8"), 8);
-            CardImages.Add(CreateImage("h9"), 9);
-            CardImages.Add(CreateImage("h10"), 10);
-            CardImages.Add(CreateImage("hj"), 10);
-            CardImages.Add(CreateImage("hk"), 10);
-            CardImages.Add(CreateImage("hq"), 10);
-            CardImages.Add(CreateImage("h1"), 11);
+            CardImages.Add(2, CreateImagesArray(CreateImage("h2"), CreateImage("c2"), CreateImage("d2"), CreateImage("s2")));
+            CardImages.Add(3, CreateImagesArray(CreateImage("h3"), CreateImage("c3"), CreateImage("d3"), CreateImage("s3")));
+            CardImages.Add(4, CreateImagesArray(CreateImage("h4"), CreateImage("c4"), CreateImage("d4"), CreateImage("s4")));
+            CardImages.Add(5, CreateImagesArray(CreateImage("h5"), CreateImage("c5"), CreateImage("d5"), CreateImage("s5")));
+            CardImages.Add(6, CreateImagesArray(CreateImage("h6"), CreateImage("c6"), CreateImage("d6"), CreateImage("s6")));
+            CardImages.Add(7, CreateImagesArray(CreateImage("h7"), CreateImage("c7"), CreateImage("d7"), CreateImage("s7")));
+            CardImages.Add(8, CreateImagesArray(CreateImage("h8"), CreateImage("c8"), CreateImage("d8"), CreateImage("s8")));
+            CardImages.Add(9, CreateImagesArray(CreateImage("h9"), CreateImage("c9"), CreateImage("d9"), CreateImage("s9")));
+            CardImages.Add(11, CreateImagesArray(CreateImage("h1"), CreateImage("c1"), CreateImage("d1"), CreateImage("s1")));
+
+            BitmapImage[] tenCards = new BitmapImage[16] { CreateImage("h10"), CreateImage("c10"), CreateImage("d10"),
+                                        CreateImage("s10"), CreateImage("hj"), CreateImage("cj"), CreateImage("dj"), CreateImage("sj"), CreateImage("hq"),
+                                        CreateImage("cq"), CreateImage("dq"), CreateImage("sq"), CreateImage("hk"), CreateImage("ck"), CreateImage("dk"),
+                                        CreateImage("sk") };
+            CardImages.Add(10, tenCards);
         }
 
         private void ShowSplitDeck()
@@ -101,9 +114,6 @@ namespace BlackJackR
             HitButton.Visibility = Visibility.Hidden;
             StandButton.Visibility = Visibility.Hidden;
             SplitButton.Visibility = Visibility.Hidden;
-
-            //ShowTextInTextBoxArray(TextBoxPlayerSplitLeft);
-            //ShowTextInTextBoxArray(TextBoxPlayerSplitRight);
         }
 
         private void InitImages()
@@ -119,6 +129,21 @@ namespace BlackJackR
             ImagesComputer.Add(Card6CImage);
         }
 
+        private void InitImagesSplitDeck()
+        {
+            SplitDeckLeftImages.Add(Card3PImage);
+            SplitDeckLeftImages.Add(Card5PImage);
+            SplitDeckLeftImages.Add(CardLeft1);
+            SplitDeckLeftImages.Add(CardLeft2);
+            SplitDeckLeftImages.Add(CardLeft3);
+
+            SplitDeckRightImages.Add(Card4PImage);
+            SplitDeckRightImages.Add(Card6PImage);
+            SplitDeckRightImages.Add(CardRight1);
+            SplitDeckRightImages.Add(CardRight2);
+            SplitDeckRightImages.Add(CardRight3);
+        }
+
         private void ResetGame()
         {
             DealButton.Visibility = Visibility.Visible;
@@ -132,6 +157,8 @@ namespace BlackJackR
             ScorePlayer = 0;
             ScoreComputer = 0;
             PressedStandButtons = 0;
+            PlayerScoreSplitLeft = 0;
+            PlayerScoreSplitRight = 0;
             BetBox.IsReadOnly = false;
             HasDeckLost = false;
         }
