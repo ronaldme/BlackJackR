@@ -53,13 +53,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controllers\MainWindowStart.cs" />
     <Compile Include="Views\Endgame.xaml.cs">
       <DependentUpon>Endgame.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EnterUserName.xaml.cs">
       <DependentUpon>EnterUserName.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\MainWindow.cs" />
+    <Compile Include="Controllers\MainWindowInit.cs" />
     <Compile Include="Controllers\MainWindowLogic.cs" />
     <Compile Include="Views\NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>

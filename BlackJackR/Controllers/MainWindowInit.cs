@@ -14,6 +14,7 @@ namespace BlackJackR
     /// </summary>
     public partial class MainWindow
     {
+        #region Properties
         private Random Ran { get; set; }
         private RulesWindow RulesWindow { get; set; }
         private Dictionary<int, BitmapImage[]> CardImages { get; set; }
@@ -32,10 +33,12 @@ namespace BlackJackR
         private int CurrentImageComputer { get; set; }
         public bool NotificationIsOpen { get; set; }
         public bool RulesWindowIsOpen { get; set; }
+        #endregion
 
-        // Split deck
+        #region SplitDeck properties
         private List<Image> SplitDeckLeftImages { get; set; }
         private List<Image> SplitDeckRightImages { get; set; }
+        private bool isSplitDeckActive { get; set; }
         private int PlayerAcesCountLeft { get; set; }
         private int PlayerAcesCountRight { get; set; }
         private int PlayerScoreSplitLeft { get; set; }
@@ -45,7 +48,9 @@ namespace BlackJackR
         private int CurrentCountRight { get; set; }
         private bool HasDeckLost { get; set; }
         private int SplitValue { get; set; }
+        #endregion
 
+        #region Initialization
         public MainWindow()
         {
             InitializeComponent();
@@ -97,23 +102,10 @@ namespace BlackJackR
             CardImages.Add(9, CreateImagesArray(CreateImage("h9"), CreateImage("c9"), CreateImage("d9"), CreateImage("s9")));
             CardImages.Add(11, CreateImagesArray(CreateImage("h1"), CreateImage("c1"), CreateImage("d1"), CreateImage("s1")));
 
-            BitmapImage[] tenCards = new BitmapImage[16] { CreateImage("h10"), CreateImage("c10"), CreateImage("d10"),
+            CardImages.Add(10, new BitmapImage[16] { CreateImage("h10"), CreateImage("c10"), CreateImage("d10"),
                                         CreateImage("s10"), CreateImage("hj"), CreateImage("cj"), CreateImage("dj"), CreateImage("sj"), CreateImage("hq"),
                                         CreateImage("cq"), CreateImage("dq"), CreateImage("sq"), CreateImage("hk"), CreateImage("ck"), CreateImage("dk"),
-                                        CreateImage("sk") };
-            CardImages.Add(10, tenCards);
-        }
-
-        private void ShowSplitDeck()
-        {
-            BorderSplit.Visibility = Visibility.Visible;
-            HitButtonLeft.Visibility = Visibility.Visible;
-            HitButtonRight.Visibility = Visibility.Visible;
-            StandButtonLeft.Visibility = Visibility.Visible;
-            StandButtonRight.Visibility = Visibility.Visible;
-            HitButton.Visibility = Visibility.Hidden;
-            StandButton.Visibility = Visibility.Hidden;
-            SplitButton.Visibility = Visibility.Hidden;
+                                        CreateImage("sk") });
         }
 
         private void InitImages()
@@ -143,55 +135,6 @@ namespace BlackJackR
             SplitDeckRightImages.Add(CardRight2);
             SplitDeckRightImages.Add(CardRight3);
         }
-
-        private void ResetGame()
-        {
-            DealButton.Visibility = Visibility.Visible;
-            SplitButton.Visibility = Visibility.Hidden;
-            HitButton.Visibility = Visibility.Hidden;
-            StandButton.Visibility = Visibility.Hidden;
-            CurrentImagePlayer = 0;
-            CurrentImageComputer = 0;
-            CurrentCountLeft = 0;
-            CurrentCountRight = 0;
-            ScorePlayer = 0;
-            ScoreComputer = 0;
-            PressedStandButtons = 0;
-            PlayerScoreSplitLeft = 0;
-            PlayerScoreSplitRight = 0;
-            BetBox.IsReadOnly = false;
-            HasDeckLost = false;
-        }
-
-        private void ResetImages()
-        {
-            ImagesPlayer.ForEach(x => x.Visibility = Visibility.Hidden);
-            ImagesComputer.ForEach(x => x.Visibility = Visibility.Hidden);
-        }
-
-        private void StartGame()
-        {
-            ResetImages();
-            Card1CImage.Source = PlayerImageBack;
-            Card2CImage.Source = PlayerImageBack;
-
-            BetBox.IsReadOnly = true;
-            PlayerScoreLabel.Content = "0";
-            ComputerScoreLabel.Content = "0";
-            EndGameMessageLabel.Content = "";
-            LabelLeft.Visibility = Visibility.Hidden;
-            LabelRight.Visibility = Visibility.Hidden;
-            BlackJackLabel.Visibility = Visibility.Hidden;
-            DealButton.Visibility = Visibility.Hidden;
-            HitButton.Visibility = Visibility.Visible;
-            StandButton.Visibility = Visibility.Visible;
-
-            // reset the split deck
-            BorderSplit.Visibility = Visibility.Hidden;
-            HitButtonLeft.Visibility = Visibility.Hidden;
-            HitButtonRight.Visibility = Visibility.Hidden;
-            StandButtonLeft.Visibility = Visibility.Hidden;
-            StandButtonRight.Visibility = Visibility.Hidden;
-        }
+        #endregion
     }
 }

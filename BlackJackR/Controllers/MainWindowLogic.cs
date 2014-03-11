@@ -45,63 +45,61 @@ namespace BlackJackR
 
         private void CalculateWinner()
         {
-            if (ScoreComputer == ScorePlayer)
-            {
-                EndGameMessageLabel.Content = "Draw!";
-            }
-            else if ((ScoreComputer > ScorePlayer && ScoreComputer <= 21) || ScorePlayer > 21)
+            EndGameMessageLabel.Content = "Draw!";
+
+            if ((ScoreComputer > ScorePlayer && ScoreComputer <= 21) || ScorePlayer > 21)
             {
                 EndGameMessageLabel.Content = "Computer won this round!";
-                AddMoneyToPlayer(false);
+                AddMoney(0, 1);
             }
             else
             {
                 EndGameMessageLabel.Content = "You won this round!";
-                AddMoneyToPlayer(true);
+                AddMoney(1, 0);
             }
 
-            CheckMoney();
-            ResetGame();
-        }
-
-        private void CheckMoney()
-        {
-            if (MoneyPlayer <= 0)
+            // Start EndGame window if player or computer loses
+            if (MoneyPlayer <= 0) 
             {
-                Endgame endgame = new Endgame();
-                endgame.WinMessageLabel.Content = "You lost!";
-                endgame.RetryNameLabel.Content = this.NameLabel1.Content;
-                endgame.Show();
-                this.Close();
+                StartEndGame("You Lost!");
             }
             else if (MoneyComputer <= 0)
             {
-                Endgame endgame = new Endgame();
-                endgame.WinMessageLabel.Content = "You won!";
-                endgame.RetryNameLabel.Content = this.NameLabel1.Content;
-                endgame.Show();
-                this.Close();
+                StartEndGame("You won!");
+            }
+
+            ResetGame();
+        }
+
+        private void StartEndGame(string message)
+        {
+            Endgame endgame = new Endgame();
+            endgame.WinMessageLabel.Content = message;
+            endgame.RetryNameLabel.Content = this.NameLabel1.Content;
+            endgame.Show();
+            this.Close();
+        }
+
+        private void IsButtonHidden(Button button)
+        {
+            if (button.Visibility == Visibility.Hidden)
+            {
+                StandButton_OnClick(this, new RoutedEventArgs());
             }
         }
 
-        private void AddMoneyToPlayer(bool playerWon)
+        /// <summary>
+        /// Enter 1 if you won of 0 if you lost
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="computer"></param>
+        private void AddMoney(int player, int computer)
         {
-            if (playerWon)
-            {
-                MoneyPlayer += Convert.ToInt16(BetBox.Text);
-                MoneyPlayerLabel.Content = "€" + MoneyComputer.ToString();
+            MoneyPlayer += Convert.ToInt16(BetBox.Text) * player;
+            MoneyPlayerLabel.Content = "€" + MoneyPlayer.ToString();
 
-                MoneyComputer -= Convert.ToInt16(BetBox.Text);
-                MoneyComputerLabel.Content = "€" + MoneyPlayer.ToString();
-            }
-            else
-            {
-                MoneyComputer += Convert.ToInt16(BetBox.Text);
-                MoneyComputerLabel.Content = "€" + MoneyComputer.ToString();
-
-                MoneyPlayer -= Convert.ToInt16(BetBox.Text);
-                MoneyPlayerLabel.Content = "€" + MoneyPlayer.ToString();
-            }
+            MoneyComputer += Convert.ToInt16(BetBox.Text) * computer;
+            MoneyComputerLabel.Content = "€" + MoneyComputer.ToString();
         }
 
         private void AddAces(int card, bool player)
@@ -115,7 +113,23 @@ namespace BlackJackR
             }
         }
 
-        private void CheckPlayerCardsForAce()
+        private void AddAcesRight(int card)
+        {
+            if (card == 11)
+            {
+                PlayerAcesCountRight++;
+            }
+        }
+
+        private void AddAcesLeft(int card)
+        {
+            if (card == 11)
+            {
+                PlayerAcesCountLeft++;
+            }
+        }
+
+        private bool PlayerHasAce()
         {
             if (PlayerAcesCount > 0)
             {
@@ -123,13 +137,12 @@ namespace BlackJackR
                 ScorePlayer -= 10;
                 PlayerScoreLabel.Content = ScorePlayer.ToString();
 
-                return;
+                return true;
             }
-
-            CalculateWinner();
+            return false;
         }
 
-        private  void CheckComputerCardsForAce()
+        private bool ComputerHasAce()
         {
             if (ComputerAcesCount > 0)
             {
@@ -137,13 +150,22 @@ namespace BlackJackR
                 ScoreComputer -= 10;
                 ComputerScoreLabel.Content = ScoreComputer.ToString();
 
-                return;
+                return true;
             }
-
-            CalculateWinner();
+            return false;
         }
 
-        private void CheckForAceSplitLeft()
+        private void ChangeSplitDeck(Label label, Button hit, Button stand)
+        {
+            label.Visibility = Visibility.Visible;
+            label.Content = "This deck lost!";
+            HitButtonLeft.Visibility = Visibility.Hidden;
+            StandButtonLeft.Visibility = Visibility.Hidden;
+            MoneyPlayer -= Convert.ToInt16(BetBox.Text);
+            MoneyPlayerLabel.Content = "€" + MoneyPlayer;
+        }
+
+        private bool CheckForAceSplitLeft()
         {
             if (PlayerAcesCountLeft > 0)
             {
@@ -151,54 +173,22 @@ namespace BlackJackR
                 PlayerScoreSplitLeft -= 10;
                 PlayerScoreLabel.Content = PlayerScoreSplitLeft + "  :  " + PlayerScoreSplitRight;
 
-                return;
+                return true;
             }
-            ChangeDeckLeft();
+            return false;
         }
 
-        private void ChangeDeckLeft()
-        {
-            LabelLeft.Visibility = Visibility.Visible;
-            LabelLeft.Content = "Left deck lost!";
-            HitButtonLeft.Visibility = Visibility.Hidden;
-            StandButtonLeft.Visibility = Visibility.Hidden;
-            MoneyPlayer -= Convert.ToInt16(BetBox.Text);
-            MoneyPlayerLabel.Content = "€" + MoneyPlayer;
-
-            if (HasDeckLost == true)
-            {
-                ResetGame();
-            }
-            HasDeckLost = true;
-        }
-
-        private void CheckForAceSplitRight()
+        private bool CheckForAceSplitRight()
         {
             if (PlayerAcesCountRight > 0)
             {
                 PlayerAcesCountRight--;
-                PlayerScoreSplitRight-= 10;
+                PlayerScoreSplitRight -= 10;
                 PlayerScoreLabel.Content = PlayerScoreSplitLeft + "  :  " + PlayerScoreSplitRight;
 
-                return;
+                return true;
             }
-            ChangeDeckRight();
-        }
-
-        private void ChangeDeckRight()
-        {
-            LabelRight.Visibility = Visibility.Visible;
-            LabelRight.Content = "Right deck lost!";
-            HitButtonRight.Visibility = Visibility.Hidden;
-            StandButtonRight.Visibility = Visibility.Hidden;
-            MoneyPlayer -= Convert.ToInt16(BetBox.Text);
-            MoneyPlayerLabel.Content = "€" + MoneyPlayer;
-
-            if (HasDeckLost == true)
-            {
-                ResetGame();
-            }
-            HasDeckLost = true;
+            return false;
         }
 
         private void CalculateComputerCard()
@@ -234,19 +224,11 @@ namespace BlackJackR
             {
                 this.Dispatcher.Invoke((Action)(() =>
                 {
-                    if (ComputerAcesCount > 0)
-                        CheckComputerCardsForAce();
-                    else
+                    if (ComputerHasAce())
                         Thread.Yield();
+                    else
+                        CalculateWinner();
                 }));
-            }
-        }
-
-        private void CheckDone()
-        {
-            if (PressedStandButtons == 2)
-            {
-                StandButton_OnClick(this, new RoutedEventArgs());
             }
         }
     }

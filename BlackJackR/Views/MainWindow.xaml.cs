@@ -24,8 +24,8 @@ namespace BlackJackR
             else
             {
                 StartGame();
-                int randomCardOne = Ran.Next(2, 12);
-                int randomCardTwo = Ran.Next(2, 12);
+                int randomCardOne = 11;//Ran.Next(2, 12);
+                int randomCardTwo = 11;//Ran.Next(2, 12);
 
                 AddAces(randomCardOne, true);
                 AddAces(randomCardTwo, true);
@@ -36,6 +36,10 @@ namespace BlackJackR
                 ScorePlayer = randomCardOne + randomCardTwo;
                 PlayerScoreLabel.Content = ScorePlayer.ToString();
 
+                if (ScorePlayer > 21)
+                {
+                    PlayerHasAce();
+                }
                 if (ScorePlayer == 21)
                 {
                     BlackJackLabel.Visibility = Visibility.Visible;
@@ -58,7 +62,7 @@ namespace BlackJackR
         private void HitButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (ScorePlayer > 21)
-                CheckPlayerCardsForAce();
+                PlayerHasAce();
 
             SplitButton.Visibility = Visibility.Hidden;
 
@@ -73,7 +77,7 @@ namespace BlackJackR
              
             if (ScorePlayer > 21)
             {
-                CheckPlayerCardsForAce();
+                PlayerHasAce();
             }
             if (CurrentImagePlayer >= ImagesPlayer.Count())
             {
@@ -85,6 +89,8 @@ namespace BlackJackR
         private void StandButton_OnClick(object sender, RoutedEventArgs e)
         {
             HitButton.Visibility = Visibility.Hidden;
+            StandButton.Visibility = Visibility.Hidden;
+            SplitButton.Visibility = Visibility.Hidden;
 
             int randomCardOne = Ran.Next(2, 12);
             int randomCardTwo = Ran.Next(2, 12);
@@ -95,9 +101,9 @@ namespace BlackJackR
             Card2CImage.Source = PickRandomCard(CardImages.First(x => x.Key == randomCardTwo).Value);
             ScoreComputer = randomCardOne + randomCardTwo;
             ComputerScoreLabel.Content = ScoreComputer.ToString();
-            
-            if (ScoreComputer > 21)
-                CheckComputerCardsForAce();
+
+            if (ScoreComputer > 21 && !ComputerHasAce())
+                CalculateWinner();
             if (ScoreComputer < 17)
                 new Thread(CalculateComputerCard).Start();
             else
@@ -107,6 +113,7 @@ namespace BlackJackR
         private void SplitButton_OnClick(object sender, RoutedEventArgs e)
         {
             ShowSplitDeck();
+            isSplitDeckActive = true;
 
             PlayerScoreSplitLeft = SplitValue;
             PlayerScoreSplitRight = SplitValue;
@@ -117,7 +124,7 @@ namespace BlackJackR
         {
             int randomCard = Ran.Next(2, 12);
 
-            AddAces(randomCard, true);
+            AddAcesLeft(randomCard);
             PlayerScoreSplitLeft += randomCard;
 
             SplitDeckLeftImages[CurrentCountLeft].Visibility = Visibility.Visible;
@@ -130,12 +137,12 @@ namespace BlackJackR
             {
                 HitButtonLeft.Visibility = Visibility.Hidden;
                 StandButtonLeft.Visibility = Visibility.Hidden;
-                PressedStandButtons++;
-                CheckDone();
+                IsButtonHidden(HitButtonRight);
             }
-            if (PlayerScoreSplitLeft > 21)
+            if (PlayerScoreSplitLeft > 21 && !CheckForAceSplitLeft())
             {
-                CheckForAceSplitLeft();
+                ChangeSplitDeck(LabelLeft, HitButtonLeft, StandButtonLeft);
+                IsButtonHidden(HitButtonRight);
             }
         }
 
@@ -143,7 +150,7 @@ namespace BlackJackR
         {
             int randomCard = Ran.Next(2, 12);
 
-            AddAces(randomCard, true);
+            AddAcesRight(randomCard);
             PlayerScoreSplitRight += randomCard;
 
             SplitDeckRightImages[CurrentCountRight].Visibility = Visibility.Visible;
@@ -152,16 +159,16 @@ namespace BlackJackR
 
             PlayerScoreLabel.Content = PlayerScoreSplitLeft + "  :  " + PlayerScoreSplitRight;
 
-            if (CurrentCountRight>= SplitDeckRightImages.Count())
+            if (CurrentCountRight >= SplitDeckRightImages.Count())
             {
                 HitButtonRight.Visibility = Visibility.Hidden;
                 StandButtonRight.Visibility = Visibility.Hidden;
-                PressedStandButtons++;
-                CheckDone();
+                IsButtonHidden(HitButtonLeft);
             }
-            if (PlayerScoreSplitRight > 21)
+            if (PlayerScoreSplitRight > 21 && !CheckForAceSplitRight())
             {
-                CheckForAceSplitRight();
+                ChangeSplitDeck(LabelLeft, HitButtonLeft, StandButtonLeft);
+                IsButtonHidden(HitButtonLeft);
             }
         }
 
@@ -169,16 +176,14 @@ namespace BlackJackR
         {
             StandButtonLeft.Visibility = Visibility.Hidden;
             HitButtonLeft.Visibility = Visibility.Hidden;
-            PressedStandButtons++;
-            CheckDone();
+            IsButtonHidden(HitButtonRight);
         }
 
         private void StandButtonRight_OnClick(object sender, RoutedEventArgs e)
         {
             StandButtonRight.Visibility = Visibility.Hidden;
             HitButtonRight.Visibility = Visibility.Hidden;
-            PressedStandButtons++;
-            CheckDone();
+            IsButtonHidden(HitButtonLeft);
         }
 
         private void RulesButton_OnClick(object sender, RoutedEventArgs e)
