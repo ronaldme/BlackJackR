@@ -1,0 +1,73 @@
+﻿<Window x:Class="Blackjack.Views.GameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Blackjack! Reach €2000,- and win!" Height="565" Width="918" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen" >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="575*" />
+            <ColumnDefinition Width="8*" />
+            <ColumnDefinition Width="145*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Static items -->
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="2" Margin="0,225,0,0" VerticalAlignment="Top" Width="925" Grid.ColumnSpan="3" RenderTransformOrigin="0.5,0.5" />
+        <Label Content="Computer: " Grid.Column="2" HorizontalAlignment="Left" Margin="21,132,0,0" VerticalAlignment="Top" Width="69" />
+        <Label Content="Computer:" HorizontalAlignment="Left" Margin="671,24,0,0" VerticalAlignment="Top" Width="77" Height="26" RenderTransformOrigin="0.492,1.192" Grid.ColumnSpan="3" />
+        <Label Content="Total points:" Grid.Column="2" HorizontalAlignment="Left" Margin="21,103,0,0" VerticalAlignment="Top" Width="104" />
+
+        <!-- User input -->
+        <TextBox Text="{ Binding BetAmount, UpdateSourceTrigger=PropertyChanged }" Name="Bet" Grid.Column="2" ToolTip="Enter a bet between €100 and €500!" HorizontalAlignment="Left" Height="23" Margin="42,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="83" />
+
+        <!-- Default buttons -->
+        <Button Command="{ Binding RulesCommand }" Content="Rules" Grid.Column="2" HorizontalAlignment="Left" Margin="98,10,0,0" VerticalAlignment="Top" Width="75" />
+        <Button Command="{ Binding HitCommand }" Name="Hit" Content="Hit!" HorizontalAlignment="Left" Margin="42,365,0,0" VerticalAlignment="Top" Width="94" Height="27" RenderTransformOrigin="0.574,-0.259" Grid.Column="2" />
+        <Button Command="{ Binding SplitCommand }" Name="Split" Content="Split!" HorizontalAlignment="Left" Margin="42,463,0,0" VerticalAlignment="Top" Width="94" Height="27" RenderTransformOrigin="0.574,-0.259" Grid.Column="2" />
+        <Button Command="{ Binding StandCommand }" Name="Stand" Content="Stand!" Margin="40,415,46,0" VerticalAlignment="Top" Height="27" Grid.Column="2" />
+        <Button Command="{ Binding DealCommand }" Name="Deal" IsDefault="True"  Content="Deal!" HorizontalAlignment="Left" Margin="42,284,0,0" VerticalAlignment="Top" Width="94" Height="27" Grid.Column="2" />
+
+        <!-- Default labels -->
+        <Label Name="ComputerPoints" Content="0"  Grid.Column="2" HorizontalAlignment="Left" Margin="98,134,0,0" VerticalAlignment="Top" />
+        <Label Name="PlayerPoints" Content="0" Grid.Column="2" HorizontalAlignment="Left" Margin="98,160,0,0" VerticalAlignment="Top" />
+        <Label Name="PlayerName1" Content="Player: " HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="654,55,0,0" VerticalAlignment="Top" Width="94" Height="26" Grid.ColumnSpan="3" />
+        <Label Name="PlayerName2" Content="PlayerName" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="0,160,0,0" VerticalAlignment="Top" Width="90" Grid.Column="2" />
+        <Label Name="ComputerMoney" Content="" HorizontalAlignment="Left" Margin="21,24,0,0" VerticalAlignment="Top" Width="59" Grid.Column="2" />
+        <Label Name="PlayerMoney" Content="" HorizontalAlignment="Left" Margin="21,55,0,0" VerticalAlignment="Top" Width="59" Grid.Column="2" />
+        <Label Name="Result" FontSize="14" Content="This is da output" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="188,12,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.053,0" Height="28" Width="347"/>
+
+        <!--  Images player -->
+        <Image Name="Card1Player" HorizontalAlignment="Left" Height="97" Margin="259,249,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="Card2Player" HorizontalAlignment="Left" Height="97" Margin="369,249,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="Card3Player" HorizontalAlignment="Left" Height="97" Margin="158,249,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="Card4Player" HorizontalAlignment="Left" Height="97" Margin="478,249,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="Card5Player" HorizontalAlignment="Left" Height="97" Margin="59,249,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="Card6Player" HorizontalAlignment="Left" Height="97" Margin="581,249,0,0" VerticalAlignment="Top" Width="71" />
+
+        <!-- Split deck -->
+        <Border Name="BorderSplit" BorderBrush="Black" Visibility="Hidden" BorderThickness="1" HorizontalAlignment="Left" Height="311" Margin="350,225,0,0" VerticalAlignment="Top" Width="2" />
+        <Image Name="CardRight1" HorizontalAlignment="Left" Height="97" Margin="370,385,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="CardRight2" HorizontalAlignment="Left" Height="97" Margin="479,385,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="CardRight3" HorizontalAlignment="Left" Height="97" Margin="581,385,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="CardLeft1" HorizontalAlignment="Left" Height="97" Margin="59,385,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="CardLeft2" HorizontalAlignment="Left" Height="97" Margin="158,385,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="CardLeft3" HorizontalAlignment="Left" Height="97" Margin="260,385,0,0" VerticalAlignment="Top" Width="71" />
+
+        <!-- Buttons split deck -->
+        <Button Name="HitLeft" Visibility="Hidden" Content="Hit left!" HorizontalAlignment="Left" Margin="20,336,0,0" VerticalAlignment="Top" Width="70" Height="27" Grid.Column="2" />
+        <Button Name="HitRight" Visibility="Hidden" Content="Hit right!" HorizontalAlignment="Left" Margin="98,336,0,0" VerticalAlignment="Top" Width="70" Height="27" Grid.Column="2" />
+        <Button Name="StandLeft" Visibility="Hidden" Content="Stand left!" HorizontalAlignment="Left" Margin="20,455,0,0" VerticalAlignment="Top" Width="70" Height="27" Grid.Column="2" />
+        <Button Name="StandRight" Visibility="Hidden" Content="Stand right!" HorizontalAlignment="Left" Margin="103,455,0,0" VerticalAlignment="Top" Width="70" Height="27" Grid.Column="2" />
+
+        <!-- Labels split deck -->
+        <Label Visibility="Hidden" Name="LabelLeft" Content="Label" HorizontalAlignment="Left" Margin="59,500,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.368,0" Width="91" />
+        <Label Visibility="Hidden" Name="LabelRight" Content="Label" HorizontalAlignment="Left" Margin="582,500,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.368,0" Width="92" />
+
+        <!--  Images Computer -->
+        <Image Name="Card1Computer" HorizontalAlignment="Left" Height="97" Margin="259,72,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="Card2Computer" HorizontalAlignment="Left" Height="97" Margin="370,72,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="Card3Computer" HorizontalAlignment="Left" Height="97" Margin="157,72,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="Card4Computer" HorizontalAlignment="Left" Height="97" Margin="479,72,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="Card5Computer" HorizontalAlignment="Left" Height="97" Margin="59,72,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="Card6Computer" HorizontalAlignment="Left" Height="97" Margin="583,72,0,0" VerticalAlignment="Top" Width="71" />
+    </Grid>
+</Window>
