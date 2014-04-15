@@ -1,11 +1,11 @@
-﻿using System.Windows;
+﻿using Blackjack.Helpers;
 using Blackjack.Interfaces;
 using Blackjack.Models;
 using Blackjack.ViewModels;
 
 namespace Blackjack.Views
 {
-    public partial class GameWindow : Window, IView
+    public partial class GameWindow : IView
     {
         public GameWindow(string name)
         {
@@ -19,7 +19,7 @@ namespace Blackjack.Views
         public GameWindow()
         {
             InitializeComponent();
-            this.DataContext = new GameViewModel(this, "TestModi");
+            this.DataContext = new GameViewModel(this, "Ronald");
         }
 
         public void AddCards(Player one, Player two)
@@ -47,19 +47,14 @@ namespace Blackjack.Views
         public void ResetResult()
         {
             Result.Content = string.Empty;
+            ComputerPoints.Content = 0;
+            PlayerPoints.Content = 0;
         }
 
-
-        public void DisplayMoney(Player player)
+        public void DisplayMoney(Player one, Player two)
         {
-            if (player.Name == "Computer")
-            {
-                ComputerMoney.Content = player.Money;
-            }
-            else
-            {
-                PlayerMoney.Content = player.Money;
-            }
+            PlayerMoney.Content = one.Money;   
+            ComputerMoney.Content = two.Money;
         }
 
         public void DisplayPoints(Player player)
@@ -72,6 +67,42 @@ namespace Blackjack.Views
             {
                 PlayerPoints.Content = player.CurrentScore;
             } 
+        }
+
+        public void EndGame(Player one, Player two, int bet)
+        {
+            Player winner = GameHelper.CalculateWinner(one, two);
+            if (winner == null)
+            {
+                ShowResult("Draw!");
+            }
+            else 
+            {
+                ShowResult(winner.Name + " won the game!");
+                if (winner == one)
+                {
+                    one.Money += bet;
+                    two.Money -= bet;
+                }
+                else
+                {
+                    two.Money += bet;
+                    one.Money -= bet;
+                }
+            }
+            GameHelper.ResetGame(one, two);
+            DisplayMoney(one, two);
+
+            if (one.Money <= 0)
+            {
+                new EndWindow(two.Name).Show();
+                this.Close();
+            }
+            else if (two.Money <= 0)
+            {
+                new EndWindow(one.Name).Show(); ;
+                this.Close();
+            }
         }
     }
 }

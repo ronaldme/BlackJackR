@@ -40,8 +40,10 @@ namespace Blackjack.ViewModels
             SplitCommand = new SplitCommand(this);
             RulesCommand = new RulesCommand(this);
 
-            Player = new Player(1, playerName, 1000, ImagesHelper.CreateImage("player"), 2);
-            Computer = new Player(2, "Computer", 1000, ImagesHelper.CreateImage("computer"), 2);
+            Player = new Player(playerName, 1000, ImagesHelper.CreateImage("player"), 2);
+            Computer = new Player("Computer", 1000, ImagesHelper.CreateImage("computer"), 2);
+            view.DisplayMoney(Player, Computer);
+            BetAmount = "500";
 
             CardImages = ImagesHelper.GetBlackJackCards();
             view.AddCards(Player, Computer);
@@ -49,6 +51,8 @@ namespace Blackjack.ViewModels
 
         public void DealCards()
         {
+            GameHelper.ResetImages(Player, Computer);
+            View.ResetResult();
             BetPlaced = true;
 
             Random ran = new Random();
@@ -73,7 +77,7 @@ namespace Blackjack.ViewModels
             Random ran = new Random();
             int card = ran.Next(2, 12);
             GameHelper.AddAces(Player, card);
-
+            
             Player.Images[Player.CurrentImage].Source = ImagesHelper.RandomColorCard(CardImages.First(x => x.Key == card).Value);
             Player.CurrentImage++;
             Player.CurrentScore += card;
@@ -81,7 +85,8 @@ namespace Blackjack.ViewModels
 
             if (Player.CurrentScore > 21)
             {
-                View.ShowResult("You lost!");
+                BetPlaced = false;
+                View.EndGame(Player, Computer, Convert.ToInt16(BetAmount));
             }
         }
 
@@ -101,34 +106,33 @@ namespace Blackjack.ViewModels
             Computer.CurrentScore = cardOne + cardTwo;
             View.DisplayPoints(Computer);
 
-            if (Computer.CurrentScore > 21 && Computer.PlayerAcesCount <= 0)
-            {
-                View.ShowResult(Player.Name + " won!");
-            }
-            else if (Computer.CurrentScore < 17)
+            if (Computer.CurrentScore < 17)
             {
                 TaskFactory = new TaskFactory(TaskScheduler.FromCurrentSynchronizationContext());
                 new Thread(HitCardComputer).Start();
             }
-        }
+            else
+            {
+                View.EndGame(Player, Computer, Convert.ToInt16(BetAmount));
+            }
+            BetPlaced = false;
+       }
 
         public void HitCardComputer()
         {
             while (Computer.CurrentScore < 17 && Computer.CurrentImage < Computer.Images.Count())
             {
                 // Pretend to be thinking
-                Thread.Sleep(1000);
+                Thread.Sleep(800);
 
                 Random ran = new Random();
                 int card = ran.Next(2, 12);
                 GameHelper.AddAces(Computer, card);
 
                 Computer.CurrentScore += card;
-
                 TaskFactory.StartNew((() => DisplayCard(card)));
             }
-            TaskFactory.StartNew(() => (GameHelper.CalculateWinner(Player, Computer)));
-            Thread.Yield();
+            TaskFactory.StartNew(EndGame);
         }
 
         private void DisplayCard(int card)
@@ -137,6 +141,11 @@ namespace Blackjack.ViewModels
                 ImagesHelper.RandomColorCard(CardImages.First(x => x.Key == card).Value);
             Computer.CurrentImage++;
             View.DisplayPoints(Computer);
+        }
+
+        private void EndGame()
+        {
+            View.EndGame(Player, Computer, Convert.ToInt16(BetAmount));
         }
     }
 }

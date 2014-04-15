@@ -1,8 +1,6 @@
-﻿using System.Windows;
-
-namespace Blackjack.Views
+﻿namespace Blackjack.Views
 {
-    public partial class RulesWindow : Window
+    public partial class RulesWindow
     {
         public RulesWindow()
         {

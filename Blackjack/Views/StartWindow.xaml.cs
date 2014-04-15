@@ -1,9 +1,8 @@
-﻿using System.Windows;
-using Blackjack.ViewModels;
+﻿using Blackjack.ViewModels;
 
 namespace Blackjack.Views
 {
-    public partial class StartWindow : Window
+    public partial class StartWindow
     {
         public StartWindow()
         {

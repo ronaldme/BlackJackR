@@ -31,9 +31,9 @@
         <Label Name="PlayerPoints" Content="0" Grid.Column="2" HorizontalAlignment="Left" Margin="98,160,0,0" VerticalAlignment="Top" />
         <Label Name="PlayerName1" Content="Player: " HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="654,55,0,0" VerticalAlignment="Top" Width="94" Height="26" Grid.ColumnSpan="3" />
         <Label Name="PlayerName2" Content="PlayerName" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="0,160,0,0" VerticalAlignment="Top" Width="90" Grid.Column="2" />
-        <Label Name="ComputerMoney" Content="" HorizontalAlignment="Left" Margin="21,24,0,0" VerticalAlignment="Top" Width="59" Grid.Column="2" />
-        <Label Name="PlayerMoney" Content="" HorizontalAlignment="Left" Margin="21,55,0,0" VerticalAlignment="Top" Width="59" Grid.Column="2" />
-        <Label Name="Result" FontSize="14" Content="This is da output" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="188,12,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.053,0" Height="28" Width="347"/>
+        <Label Name="ComputerMoney" HorizontalAlignment="Left" Margin="21,24,0,0" VerticalAlignment="Top" Width="59" Grid.Column="2" />
+        <Label Name="PlayerMoney" HorizontalAlignment="Left" Margin="21,55,0,0" VerticalAlignment="Top" Width="59" Grid.Column="2" />
+        <Label Name="Result" FontSize="14" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="188,12,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.053,0" Height="28" Width="347"/>
 
         <!--  Images player -->
         <Image Name="Card1Player" HorizontalAlignment="Left" Height="97" Margin="259,249,0,0" VerticalAlignment="Top" Width="71" />

@@ -26,12 +26,17 @@ namespace Blackjack.Interfaces
         /// Display the ammount of money
         /// </summary>
         /// <param name="player"></param>
-        void DisplayMoney(Player player);
+        void DisplayMoney(Player one, Player two);
 
         /// <summary>
         /// Display the score of the game of the player
         /// </summary>
         /// <param name="player"></param>
         void DisplayPoints(Player player);
+
+        /// <summary>
+        /// End the game, update the view and money of the players
+        /// </summary>
+        void EndGame(Player one, Player two, int bet);
     }
 }
