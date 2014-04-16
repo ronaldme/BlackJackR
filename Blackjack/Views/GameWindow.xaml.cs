@@ -1,4 +1,5 @@
-﻿using Blackjack.Helpers;
+﻿using System.Windows;
+using Blackjack.Helpers;
 using Blackjack.Interfaces;
 using Blackjack.Models;
 using Blackjack.ViewModels;
@@ -102,6 +103,48 @@ namespace Blackjack.Views
             {
                 new EndWindow(one.Name).Show(); ;
                 this.Close();
+            }
+        }
+
+
+        public void SplitDeck(Player one, Player two, bool activate)
+        {
+            if (activate)
+            {
+                BorderSplit.Visibility = Visibility.Visible;
+                HitLeft.Visibility = Visibility.Visible;
+                HitRight.Visibility = Visibility.Visible;
+                StandLeft.Visibility = Visibility.Visible;
+                StandRight.Visibility = Visibility.Visible;
+
+                Hit.Visibility = Visibility.Hidden;
+                Stand.Visibility = Visibility.Hidden;
+                Split.Visibility = Visibility.Hidden;
+                one.SplitDeck.ImagesLeft.Add(Card1Player);
+                one.SplitDeck.ImagesLeft.Add(Card3Player);
+                one.SplitDeck.ImagesLeft.Add(Card5Player);
+                one.SplitDeck.ImagesLeft.Add(CardLeft1);
+                one.SplitDeck.ImagesLeft.Add(CardLeft2);
+                one.SplitDeck.ImagesLeft.Add(CardLeft3);
+
+                one.SplitDeck.ImagesLeft.Add(Card2Player);
+                one.SplitDeck.ImagesLeft.Add(Card4Player);
+                one.SplitDeck.ImagesLeft.Add(Card6Player);
+                one.SplitDeck.ImagesLeft.Add(CardRight1);
+                one.SplitDeck.ImagesLeft.Add(CardRight2);
+                one.SplitDeck.ImagesLeft.Add(CardRight3);
+            }
+            else
+            {
+                BorderSplit.Visibility = Visibility.Hidden;
+                HitLeft.Visibility = Visibility.Hidden;
+                HitRight.Visibility = Visibility.Hidden;
+                StandLeft.Visibility = Visibility.Hidden;
+                StandRight.Visibility = Visibility.Hidden;
+
+                Hit.Visibility = Visibility.Visible;
+                Stand.Visibility = Visibility.Visible;
+                Split.Visibility = Visibility.Visible;
             }
         }
     }

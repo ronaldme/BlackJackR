@@ -8,6 +8,7 @@ namespace Blackjack.Models
     {
         public List<Image> Images { get; set; }
         public BitmapImage ImageBack { get; set; }
+        public SplitDeck SplitDeck { get; set; }
         public string Name { get; set; }
         public int Money { get; set; }
         public int CurrentScore { get; set; }
@@ -16,7 +17,8 @@ namespace Blackjack.Models
 
         public Player(string name, int money, BitmapImage backSide, int currentImage)
         {
-            Images = new List<Image>();
+            this.Images = new List<Image>();
+            this.SplitDeck = new SplitDeck();
             this.Name = name;
             this.Money = money;
             this.ImageBack = backSide;

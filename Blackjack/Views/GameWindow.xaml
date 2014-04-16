@@ -21,7 +21,7 @@
 
         <!-- Default buttons -->
         <Button Command="{ Binding RulesCommand }" Content="Rules" Grid.Column="2" HorizontalAlignment="Left" Margin="98,10,0,0" VerticalAlignment="Top" Width="75" />
-        <Button Command="{ Binding HitCommand }" Name="Hit" Content="Hit!" HorizontalAlignment="Left" Margin="42,365,0,0" VerticalAlignment="Top" Width="94" Height="27" RenderTransformOrigin="0.574,-0.259" Grid.Column="2" />
+        <Button Command="{ Binding HitCommand }" Name="Hit" IsDefault="True" Content="Hit!" HorizontalAlignment="Left" Margin="42,365,0,0" VerticalAlignment="Top" Width="94" Height="27" RenderTransformOrigin="0.574,-0.259" Grid.Column="2" />
         <Button Command="{ Binding SplitCommand }" Name="Split" Content="Split!" HorizontalAlignment="Left" Margin="42,463,0,0" VerticalAlignment="Top" Width="94" Height="27" RenderTransformOrigin="0.574,-0.259" Grid.Column="2" />
         <Button Command="{ Binding StandCommand }" Name="Stand" Content="Stand!" Margin="40,415,46,0" VerticalAlignment="Top" Height="27" Grid.Column="2" />
         <Button Command="{ Binding DealCommand }" Name="Deal" IsDefault="True"  Content="Deal!" HorizontalAlignment="Left" Margin="42,284,0,0" VerticalAlignment="Top" Width="94" Height="27" Grid.Column="2" />
@@ -48,15 +48,15 @@
         <Image Name="CardRight1" HorizontalAlignment="Left" Height="97" Margin="370,385,0,0" VerticalAlignment="Top" Width="71" />
         <Image Name="CardRight2" HorizontalAlignment="Left" Height="97" Margin="479,385,0,0" VerticalAlignment="Top" Width="71" />
         <Image Name="CardRight3" HorizontalAlignment="Left" Height="97" Margin="581,385,0,0" VerticalAlignment="Top" Width="71" />
-        <Image Name="CardLeft1" HorizontalAlignment="Left" Height="97" Margin="59,385,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="CardLeft1" HorizontalAlignment="Left" Height="97" Margin="260,385,0,0" VerticalAlignment="Top" Width="71" />
         <Image Name="CardLeft2" HorizontalAlignment="Left" Height="97" Margin="158,385,0,0" VerticalAlignment="Top" Width="71" />
-        <Image Name="CardLeft3" HorizontalAlignment="Left" Height="97" Margin="260,385,0,0" VerticalAlignment="Top" Width="71" />
+        <Image Name="CardLeft3" HorizontalAlignment="Left" Height="97" Margin="59,385,0,0" VerticalAlignment="Top" Width="71" />
 
         <!-- Buttons split deck -->
-        <Button Name="HitLeft" Visibility="Hidden" Content="Hit left!" HorizontalAlignment="Left" Margin="20,336,0,0" VerticalAlignment="Top" Width="70" Height="27" Grid.Column="2" />
-        <Button Name="HitRight" Visibility="Hidden" Content="Hit right!" HorizontalAlignment="Left" Margin="98,336,0,0" VerticalAlignment="Top" Width="70" Height="27" Grid.Column="2" />
-        <Button Name="StandLeft" Visibility="Hidden" Content="Stand left!" HorizontalAlignment="Left" Margin="20,455,0,0" VerticalAlignment="Top" Width="70" Height="27" Grid.Column="2" />
-        <Button Name="StandRight" Visibility="Hidden" Content="Stand right!" HorizontalAlignment="Left" Margin="103,455,0,0" VerticalAlignment="Top" Width="70" Height="27" Grid.Column="2" />
+        <Button Command="{ Binding HitLeftCommand }" Name="HitLeft" Visibility="Hidden" Content="Hit left!" HorizontalAlignment="Left" Margin="20,336,0,0" VerticalAlignment="Top" Width="70" Height="27" Grid.Column="2" />
+        <Button Command="{ Binding HitRightCommand }" Name="HitRight" Visibility="Hidden" Content="Hit right!" HorizontalAlignment="Left" Margin="98,336,0,0" VerticalAlignment="Top" Width="70" Height="27" Grid.Column="2" />
+        <Button Command="{ Binding StandLeftCommand }" Name="StandLeft" Visibility="Hidden" Content="Stand left!" HorizontalAlignment="Left" Margin="20,455,0,0" VerticalAlignment="Top" Width="70" Height="27" Grid.Column="2" />
+        <Button Command="{ Binding StandRightCommand }" Name="StandRight" Visibility="Hidden" Content="Stand right!" HorizontalAlignment="Left" Margin="103,455,0,0" VerticalAlignment="Top" Width="70" Height="27" Grid.Column="2" />
 
         <!-- Labels split deck -->
         <Label Visibility="Hidden" Name="LabelLeft" Content="Label" HorizontalAlignment="Left" Margin="59,500,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.368,0" Width="91" />

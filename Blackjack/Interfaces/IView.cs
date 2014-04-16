@@ -38,5 +38,10 @@ namespace Blackjack.Interfaces
         /// End the game, update the view and money of the players
         /// </summary>
         void EndGame(Player one, Player two, int bet);
+
+        /// <summary>
+        /// Activate or deactivate the SplitDeck
+        /// </summary>
+        void SplitDeck(Player one, Player two, bool activate);
     }
 }

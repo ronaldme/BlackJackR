@@ -55,14 +55,19 @@
     </ApplicationDefinition>
     <Compile Include="Commands\DealCommand.cs" />
     <Compile Include="Commands\HitCommand.cs" />
+    <Compile Include="Commands\HitLeftCommand.cs" />
+    <Compile Include="Commands\HitRightCommand.cs" />
     <Compile Include="Commands\RulesCommand.cs" />
     <Compile Include="Commands\SplitCommand.cs" />
     <Compile Include="Commands\StandCommand.cs" />
+    <Compile Include="Commands\StandLeftCommand.cs" />
+    <Compile Include="Commands\StandRightCommand.cs" />
     <Compile Include="Commands\StartCommand.cs" />
     <Compile Include="Helpers\GameHelper.cs" />
     <Compile Include="Helpers\ImagesHelper.cs" />
     <Compile Include="Interfaces\IView.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\SplitDeck.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\StartViewModel.cs" />
     <Compile Include="Views\EndWindow.xaml.cs">
@@ -288,7 +293,6 @@
   <ItemGroup>
     <Resource Include="Images\sq.png" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

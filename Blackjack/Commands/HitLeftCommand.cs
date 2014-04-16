@@ -4,13 +4,13 @@ using Blackjack.ViewModels;
 
 namespace Blackjack.Commands
 {
-    public class SplitCommand : ICommand
+    public class HitLeftCommand : ICommand
     {
         private readonly GameViewModel viewModel;
 
-        public SplitCommand(GameViewModel model)
+        public HitLeftCommand(GameViewModel viewModel)
         {
-            viewModel = model;
+            this.viewModel = viewModel;
         }
 
         public event EventHandler CanExecuteChanged
@@ -21,16 +21,15 @@ namespace Blackjack.Commands
 
         public bool CanExecute(object parameter)
         {
-            if (viewModel.BetPlaced && viewModel.DoubleCards)
+            if (viewModel.Player.SplitDeck.FinishedLeft)
             {
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
 
         public void Execute(object parameter)
         {
-            viewModel.View.SplitDeck(viewModel.Player, viewModel.Computer, true);
         }
     }
 }

@@ -12,10 +12,6 @@ namespace Blackjack.Helpers
             }
         }
 
-        /// <summary>
-        /// Calculate the winner and return that Player
-        /// </summary>
-        /// <returns>Return null when both players have the same score</returns>
         public static Player CalculateWinner(Player one, Player two)
         {
             if ((one.CurrentScore > two.CurrentScore || two.CurrentScore > 21 ) && one.CurrentScore <= 21)
@@ -28,6 +24,18 @@ namespace Blackjack.Helpers
             }
 
             return null;
+        }
+
+        public static bool HasAces(Player player)
+        {
+            if (player.PlayerAcesCount > 0)
+            {
+                player.PlayerAcesCount--;
+                player.CurrentScore -= 10;
+
+                return true;
+            }
+            return false;
         }
 
         public static void ResetGame(Player one, Player two)

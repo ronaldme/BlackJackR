@@ -21,6 +21,10 @@ namespace Blackjack.ViewModels
         public ICommand StandCommand { get; private set; }
         public ICommand SplitCommand { get; private set; }
         public ICommand RulesCommand { get; private set; }
+        public ICommand HitLeftCommand { get; private set; }
+        public ICommand StandLeftCommand { get; private set; }
+        public ICommand HitRightCommand { get; private set; }
+        public ICommand StandRightCommand { get; private set; }
         public IView View { get; set; }
         public string BetAmount { get; set; }
         public Player Player { get; set; }
@@ -39,11 +43,15 @@ namespace Blackjack.ViewModels
             StandCommand = new StandCommand(this);
             SplitCommand = new SplitCommand(this);
             RulesCommand = new RulesCommand(this);
+            HitLeftCommand = new HitLeftCommand(this);
+            StandLeftCommand = new StandLeftCommand(this);
+            HitRightCommand = new HitRightCommand(this);
+            StandRightCommand = new StandRightCommand(this);
 
             Player = new Player(playerName, 1000, ImagesHelper.CreateImage("player"), 2);
             Computer = new Player("Computer", 1000, ImagesHelper.CreateImage("computer"), 2);
             view.DisplayMoney(Player, Computer);
-            BetAmount = "500";
+            BetAmount = "100";
 
             CardImages = ImagesHelper.GetBlackJackCards();
             view.AddCards(Player, Computer);
@@ -56,8 +64,8 @@ namespace Blackjack.ViewModels
             BetPlaced = true;
 
             Random ran = new Random();
-            int cardOne = ran.Next(2, 12);
-            int cardTwo = ran.Next(2, 12);
+            int cardOne = 5;//ran.Next(2, 12);
+            int cardTwo = 5;//ran.Next(2, 12);
             GameHelper.AddAces(Player, cardOne);
             GameHelper.AddAces(Player, cardTwo);
 
@@ -70,6 +78,11 @@ namespace Blackjack.ViewModels
             {
                 DoubleCards = true;
             }
+            if (Player.CurrentScore > 21)
+            {
+                GameHelper.HasAces(Player);
+                View.DisplayPoints(Player);
+            }
         }
 
         public void HitCard()
@@ -77,17 +90,19 @@ namespace Blackjack.ViewModels
             Random ran = new Random();
             int card = ran.Next(2, 12);
             GameHelper.AddAces(Player, card);
-            
+
             Player.Images[Player.CurrentImage].Source = ImagesHelper.RandomColorCard(CardImages.First(x => x.Key == card).Value);
             Player.CurrentImage++;
             Player.CurrentScore += card;
-            View.DisplayPoints(Player);
 
-            if (Player.CurrentScore > 21)
+            if (Player.CurrentScore > 21 && !GameHelper.HasAces(Player))
             {
                 BetPlaced = false;
-                View.EndGame(Player, Computer, Convert.ToInt16(BetAmount));
+                View.DisplayPoints(Player);
+                View.EndGame(Player, Computer, Convert.ToInt16(BetAmount));                
+                return;
             }
+            View.DisplayPoints(Player);
         }
 
         public void Stand()
@@ -104,15 +119,16 @@ namespace Blackjack.ViewModels
                 ImagesHelper.RandomColorCard(CardImages.First(x => x.Key == cardTwo).Value);
 
             Computer.CurrentScore = cardOne + cardTwo;
-            View.DisplayPoints(Computer);
 
-            if (Computer.CurrentScore < 17)
+            if (Computer.CurrentScore < 17 || (Computer.CurrentScore > 21 && GameHelper.HasAces(Computer)))
             {
+                View.DisplayPoints(Computer);
                 TaskFactory = new TaskFactory(TaskScheduler.FromCurrentSynchronizationContext());
                 new Thread(HitCardComputer).Start();
             }
             else
             {
+                View.DisplayPoints(Computer);
                 View.EndGame(Player, Computer, Convert.ToInt16(BetAmount));
             }
             BetPlaced = false;
@@ -131,6 +147,11 @@ namespace Blackjack.ViewModels
 
                 Computer.CurrentScore += card;
                 TaskFactory.StartNew((() => DisplayCard(card)));
+
+                if (Computer.CurrentScore > 21)
+                {
+                    GameHelper.HasAces(Computer);
+                }
             }
             TaskFactory.StartNew(EndGame);
         }
