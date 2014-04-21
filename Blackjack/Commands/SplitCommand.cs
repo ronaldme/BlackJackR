@@ -21,7 +21,7 @@ namespace Blackjack.Commands
 
         public bool CanExecute(object parameter)
         {
-            if (viewModel.BetPlaced && viewModel.DoubleCards)
+            if (viewModel.BetPlaced && viewModel.DoubleCards && viewModel.Player.CurrentImage < 3)
             {
                 return true;
             }
@@ -30,7 +30,14 @@ namespace Blackjack.Commands
 
         public void Execute(object parameter)
         {
-            viewModel.View.SplitDeck(viewModel.Player, viewModel.Computer, true);
+            // Divide by two is the value of one of the double cards
+            int score = viewModel.Player.Score / 2;
+            viewModel.Player.SplitDeck.ScoreLeft = score;
+            viewModel.Player.SplitDeck.ScoreRight= score;
+
+            viewModel.View.SplitDeck(viewModel.Player, true);
+            viewModel.View.DisplayPointsSplit(viewModel.Player);
+            viewModel.SplitDeck = true;
         }
     }
 }

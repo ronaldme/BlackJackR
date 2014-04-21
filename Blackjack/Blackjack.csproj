@@ -66,6 +66,7 @@
     <Compile Include="Helpers\GameHelper.cs" />
     <Compile Include="Helpers\ImagesHelper.cs" />
     <Compile Include="Interfaces\IView.cs" />
+    <Compile Include="Models\CommandsManager.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\SplitDeck.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />

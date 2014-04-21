@@ -30,10 +30,11 @@ namespace Blackjack.Commands
 
         public void Execute(object parameter)
         {
-            // Show points left.
-            // End left turn
-
             viewModel.Player.SplitDeck.FinishedRight = true;
+            if (viewModel.Player.SplitDeck.FinishedLeft)
+            {
+                viewModel.Stand();
+            }
         }
     }
 }

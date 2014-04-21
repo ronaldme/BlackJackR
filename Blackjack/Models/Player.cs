@@ -11,8 +11,8 @@ namespace Blackjack.Models
         public SplitDeck SplitDeck { get; set; }
         public string Name { get; set; }
         public int Money { get; set; }
-        public int CurrentScore { get; set; }
-        public int PlayerAcesCount { get; set; }
+        public int Score { get; set; }
+        public int Aces { get; set; }
         public int CurrentImage { get; set; }
 
         public Player(string name, int money, BitmapImage backSide, int currentImage)
@@ -23,6 +23,12 @@ namespace Blackjack.Models
             this.Money = money;
             this.ImageBack = backSide;
             this.CurrentImage = currentImage;
+        }
+
+        public void ShowBackside()
+        {
+            this.Images[0].Source = ImageBack;
+            this.Images[1].Source = ImageBack;
         }
     }
 }

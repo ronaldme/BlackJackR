@@ -8,8 +8,8 @@ namespace Blackjack.Models
     {
         public List<Image> ImagesLeft { get; set; }
         public List<Image> ImagesRight { get; set; }
-        public int CurrentScoreLeft { get; set; }
-        public int CurrentScoreRight { get; set; }
+        public int ScoreLeft { get; set; }
+        public int ScoreRight { get; set; }
         public int CurrentImageLeft { get; set; }
         public int CurrentImageRight { get; set; }
         public int AcesLeft { get; set; }

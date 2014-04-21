@@ -7,14 +7,11 @@ namespace Blackjack.Interfaces
         /// <summary>
         /// Add the cards to the players
         /// </summary>
-        /// <param name="one"></param>
-        /// <param name="two"></param>
         void AddCards(Player one, Player two);
-        
+
         /// <summary>
         /// Show a message with the game result
         /// </summary>
-        /// <param name="result"></param>
         void ShowResult(string result);
         
         /// <summary>
@@ -25,23 +22,26 @@ namespace Blackjack.Interfaces
         /// <summary>
         /// Display the ammount of money
         /// </summary>
-        /// <param name="player"></param>
         void DisplayMoney(Player one, Player two);
 
         /// <summary>
         /// Display the score of the game of the player
         /// </summary>
-        /// <param name="player"></param>
         void DisplayPoints(Player player);
+
+        /// <summary>
+        /// Display the score of the game of the player when in splitdeck
+        /// </summary>
+        void DisplayPointsSplit(Player player);
 
         /// <summary>
         /// End the game, update the view and money of the players
         /// </summary>
-        void EndGame(Player one, Player two, int bet);
+        void EndGame(Player one, Player two, Player winner, int bet);
 
         /// <summary>
         /// Activate or deactivate the SplitDeck
         /// </summary>
-        void SplitDeck(Player one, Player two, bool activate);
+        void SplitDeck(Player one, bool activate);
     }
 }

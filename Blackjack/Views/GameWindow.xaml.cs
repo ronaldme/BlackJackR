@@ -62,17 +62,21 @@ namespace Blackjack.Views
         {
             if (player.Name == "Computer")
             {
-                ComputerPoints.Content = player.CurrentScore;
+                ComputerPoints.Content = player.Score;
             }
             else
             {
-                PlayerPoints.Content = player.CurrentScore;
+                PlayerPoints.Content = player.Score;
             } 
         }
 
-        public void EndGame(Player one, Player two, int bet)
+        public void DisplayPointsSplit(Player player)
         {
-            Player winner = GameHelper.CalculateWinner(one, two);
+            PlayerPoints.Content = player.SplitDeck.ScoreLeft + " : " + player.SplitDeck.ScoreRight;
+        }
+
+        public void EndGame(Player one, Player two, Player winner, int bet)
+        {
             if (winner == null)
             {
                 ShowResult("Draw!");
@@ -91,7 +95,7 @@ namespace Blackjack.Views
                     one.Money -= bet;
                 }
             }
-            GameHelper.ResetGame(one, two);
+            
             DisplayMoney(one, two);
 
             if (one.Money <= 0)
@@ -106,8 +110,7 @@ namespace Blackjack.Views
             }
         }
 
-
-        public void SplitDeck(Player one, Player two, bool activate)
+        public void SplitDeck(Player player, bool activate)
         {
             if (activate)
             {
@@ -120,19 +123,17 @@ namespace Blackjack.Views
                 Hit.Visibility = Visibility.Hidden;
                 Stand.Visibility = Visibility.Hidden;
                 Split.Visibility = Visibility.Hidden;
-                one.SplitDeck.ImagesLeft.Add(Card1Player);
-                one.SplitDeck.ImagesLeft.Add(Card3Player);
-                one.SplitDeck.ImagesLeft.Add(Card5Player);
-                one.SplitDeck.ImagesLeft.Add(CardLeft1);
-                one.SplitDeck.ImagesLeft.Add(CardLeft2);
-                one.SplitDeck.ImagesLeft.Add(CardLeft3);
+                player.SplitDeck.ImagesLeft.Add(Card3Player);
+                player.SplitDeck.ImagesLeft.Add(Card5Player);
+                player.SplitDeck.ImagesLeft.Add(CardLeft1);
+                player.SplitDeck.ImagesLeft.Add(CardLeft2);
+                player.SplitDeck.ImagesLeft.Add(CardLeft3);
 
-                one.SplitDeck.ImagesLeft.Add(Card2Player);
-                one.SplitDeck.ImagesLeft.Add(Card4Player);
-                one.SplitDeck.ImagesLeft.Add(Card6Player);
-                one.SplitDeck.ImagesLeft.Add(CardRight1);
-                one.SplitDeck.ImagesLeft.Add(CardRight2);
-                one.SplitDeck.ImagesLeft.Add(CardRight3);
+                player.SplitDeck.ImagesRight.Add(Card4Player);
+                player.SplitDeck.ImagesRight.Add(Card6Player);
+                player.SplitDeck.ImagesRight.Add(CardRight1);
+                player.SplitDeck.ImagesRight.Add(CardRight2);
+                player.SplitDeck.ImagesRight.Add(CardRight3);
             }
             else
             {

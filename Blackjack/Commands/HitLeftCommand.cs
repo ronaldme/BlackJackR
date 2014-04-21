@@ -30,6 +30,17 @@ namespace Blackjack.Commands
 
         public void Execute(object parameter)
         {
+            viewModel.HitCardSplit(true);
+
+            if (viewModel.Player.SplitDeck.CurrentImageLeft >= viewModel.Player.SplitDeck.ImagesLeft.Count)
+            {
+                viewModel.Player.SplitDeck.FinishedLeft = true;
+
+                if (viewModel.Player.SplitDeck.FinishedRight)
+                {
+                    viewModel.Stand();
+                }
+            }
         }
     }
 }
