@@ -23,7 +23,7 @@ namespace Blackjack.Commands
         {
             if (viewModel.Player.CurrentImage >= viewModel.Player.Images.Count)
             {
-                viewModel.Stand();
+                viewModel.Stand(false);
                 return false;
             }
             else if (viewModel.BetPlaced)

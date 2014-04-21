@@ -30,7 +30,7 @@ namespace Blackjack.Commands
 
         public void Execute(object parameter)
         {
-            viewModel.Stand();
+            viewModel.Stand(false);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Blackjack.Commands
 
         public bool CanExecute(object parameter)
         {
-            if (!string.IsNullOrWhiteSpace(viewModel.PlayerName))
+            if (!string.IsNullOrWhiteSpace(viewModel.Name))
             {
                 return true;
             }

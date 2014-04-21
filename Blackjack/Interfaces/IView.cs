@@ -10,6 +10,18 @@ namespace Blackjack.Interfaces
         void AddCards(Player one, Player two);
 
         /// <summary>
+        /// Show or hide the dealbutton
+        /// </summary>
+        /// <param name="show"></param>
+        void DealButton(bool show);
+
+        /// <summary>
+        /// Display the user's name
+        /// </summary>
+        /// <param name="name"></param>
+        void DisplayName(string name);
+
+        /// <summary>
         /// Show a message with the game result
         /// </summary>
         void ShowResult(string result);
@@ -18,6 +30,11 @@ namespace Blackjack.Interfaces
         /// Reset the results
         /// </summary>
         void ResetResult();
+
+        /// <summary>
+        /// Check if one of the players money drop below zero
+        /// </summary>
+        void CheckMoney(Player one, Player two);
 
         /// <summary>
         /// Display the ammount of money
@@ -37,7 +54,9 @@ namespace Blackjack.Interfaces
         /// <summary>
         /// End the game, update the view and money of the players
         /// </summary>
-        void EndGame(Player one, Player two, Player winner, int bet);
+        void EndGame(Player one, Player two, int bet);
+
+        void EndGameSplit(Player one, Player two, int bet);
 
         /// <summary>
         /// Activate or deactivate the SplitDeck

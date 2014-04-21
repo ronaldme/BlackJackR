@@ -17,20 +17,20 @@
         <Label Content="Total points:" Grid.Column="2" HorizontalAlignment="Left" Margin="21,103,0,0" VerticalAlignment="Top" Width="104" />
 
         <!-- User input -->
-        <TextBox Text="{ Binding GameViewModel.BetAmount, UpdateSourceTrigger=PropertyChanged }" Name="Bet" Grid.Column="2" ToolTip="Enter a bet between €100 and €500!" HorizontalAlignment="Left" Height="23" Margin="42,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="83" />
+        <TextBox Text="{ Binding BetAmount, UpdateSourceTrigger=PropertyChanged }" Name="Bet" Grid.Column="2" ToolTip="Enter a bet between €100 and €500!" HorizontalAlignment="Left" Height="23" Margin="42,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="83" />
 
         <!-- Default buttons -->
         <Button Command="{ Binding Commands.RulesCommand }" Content="Rules" Grid.Column="2" HorizontalAlignment="Left" Margin="98,10,0,0" VerticalAlignment="Top" Width="75" />
-        <Button Command="{ Binding Commands.HitCommand }" Name="Hit" IsDefault="True" Content="Hit!" HorizontalAlignment="Left" Margin="42,365,0,0" VerticalAlignment="Top" Width="94" Height="27" RenderTransformOrigin="0.574,-0.259" Grid.Column="2" />
+        <Button Command="{ Binding Commands.HitCommand }" Name="Hit" Content="Hit!" HorizontalAlignment="Left" Margin="42,365,0,0" VerticalAlignment="Top" Width="94" Height="27" RenderTransformOrigin="0.574,-0.259" Grid.Column="2" />
         <Button Command="{ Binding Commands.SplitCommand }" Name="Split" Content="Split!" HorizontalAlignment="Left" Margin="42,463,0,0" VerticalAlignment="Top" Width="94" Height="27" RenderTransformOrigin="0.574,-0.259" Grid.Column="2" />
         <Button Command="{ Binding Commands.StandCommand }" Name="Stand" Content="Stand!" Margin="40,415,46,0" VerticalAlignment="Top" Height="27" Grid.Column="2" />
-        <Button Command="{ Binding Commands.DealCommand }" Name="Deal" IsDefault="True"  Content="Deal!" HorizontalAlignment="Left" Margin="42,284,0,0" VerticalAlignment="Top" Width="94" Height="27" Grid.Column="2" />
+        <Button Command="{ Binding Commands.DealCommand }" Name="Deal" Content="Deal!" HorizontalAlignment="Left" Margin="42,284,0,0" VerticalAlignment="Top" Width="94" Height="27" Grid.Column="2" />
 
         <!-- Default labels -->
         <Label Name="ComputerPoints" Content="0"  Grid.Column="2" HorizontalAlignment="Left" Margin="98,134,0,0" VerticalAlignment="Top" />
         <Label Name="PlayerPoints" Content="0" Grid.Column="2" HorizontalAlignment="Left" Margin="98,160,0,0" VerticalAlignment="Top" />
-        <Label Name="PlayerName1" Content="Player: " HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="654,55,0,0" VerticalAlignment="Top" Width="94" Height="26" Grid.ColumnSpan="3" />
-        <Label Name="PlayerName2" Content="PlayerName" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="0,160,0,0" VerticalAlignment="Top" Width="90" Grid.Column="2" />
+        <Label Name="Name1" Content="Player: " HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="654,55,0,0" VerticalAlignment="Top" Width="94" Height="26" Grid.ColumnSpan="3" />
+        <Label Name="Name2" Content="PlayerName" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="0,160,0,0" VerticalAlignment="Top" Width="90" Grid.Column="2" />
         <Label Name="ComputerMoney" HorizontalAlignment="Left" Margin="21,24,0,0" VerticalAlignment="Top" Width="59" Grid.Column="2" />
         <Label Name="PlayerMoney" HorizontalAlignment="Left" Margin="21,55,0,0" VerticalAlignment="Top" Width="59" Grid.Column="2" />
         <Label Name="Result" FontSize="14" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="188,12,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.053,0" Height="28" Width="347"/>

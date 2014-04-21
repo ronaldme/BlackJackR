@@ -13,12 +13,12 @@ namespace Blackjack.Views
         private void Retry(object sender, RoutedEventArgs e)
         {
             new StartWindow().Show();
-            this.Close();
+            Close();
         }
 
         private void Quit(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

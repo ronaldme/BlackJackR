@@ -30,8 +30,19 @@ namespace Blackjack.Commands
 
         public void Execute(object parameter)
         {
+            int score = 0;
             // Divide by two is the value of one of the double cards
-            int score = viewModel.Player.Score / 2;
+            // Or if we have aces then score == 11
+            if (viewModel.Player.Aces <= 0)
+            {
+                score = viewModel.Player.Score/2;
+            }
+            else
+            {
+                score = 11;
+                viewModel.Player.SplitDeck.AcesLeft = 1;
+                viewModel.Player.SplitDeck.AcesRight = 1;
+            }
             viewModel.Player.SplitDeck.ScoreLeft = score;
             viewModel.Player.SplitDeck.ScoreRight= score;
 

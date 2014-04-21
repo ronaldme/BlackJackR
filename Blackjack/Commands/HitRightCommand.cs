@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using Blackjack.Models;
 using Blackjack.ViewModels;
 
 namespace Blackjack.Commands
@@ -32,13 +33,15 @@ namespace Blackjack.Commands
         {
             viewModel.HitCardSplit(false);
 
-            if (viewModel.Player.SplitDeck.CurrentImageRight >= viewModel.Player.SplitDeck.ImagesRight.Count)
-            {
-                viewModel.Player.SplitDeck.FinishedRight = true;
+            SplitDeck splitDeck = viewModel.Player.SplitDeck;
 
-                if (viewModel.Player.SplitDeck.FinishedLeft)
+            if (splitDeck.CurrentImageRight >= splitDeck.ImagesRight.Count)
+            {
+                splitDeck.FinishedRight = true;
+
+                if (splitDeck.FinishedLeft)
                 {
-                    viewModel.Stand();
+                    viewModel.Stand(true);
                 }
             }
         }

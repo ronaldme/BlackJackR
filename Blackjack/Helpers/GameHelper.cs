@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Blackjack.Models;
+﻿using Blackjack.Models;
 
 namespace Blackjack.Helpers
 {
@@ -42,13 +41,21 @@ namespace Blackjack.Helpers
             return null;
         }
 
+        /// <summary>
+        /// When left and right score is higher than computer's score return one
+        /// When both scores are lower than computer's score return two
+        /// Other outcome is a draw, return null
+        /// </summary>
         public static Player CalculateWinnerSplit(Player one, Player two)
         {
-            if (one.SplitDeck.ScoreLeft > two.Score && one.SplitDeck.ScoreRight > two.Score)
+            int scoreLeft = one.SplitDeck.ScoreLeft;
+            int scoreRight = one.SplitDeck.ScoreRight;
+
+            if (((scoreLeft > two.Score && scoreRight > two.Score) || (two.Score > 21)) && scoreLeft <= 21 && scoreRight <= 21)
             {
                 return one;
             }
-            if (one.SplitDeck.ScoreLeft < two.Score && one.SplitDeck.ScoreRight < two.Score)
+            if (scoreLeft < two.Score && scoreRight < two.Score && two.Score <= 21)
             {
                 return two;
             }

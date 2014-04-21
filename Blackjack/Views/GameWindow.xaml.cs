@@ -14,15 +14,6 @@ namespace Blackjack.Views
             this.DataContext = new GameViewModel(this, name);
         }
 
-        /// <summary>
-        /// Remove for release and set StartWindow.xaml to startup view
-        /// </summary>
-        public GameWindow()
-        {
-            InitializeComponent();
-            this.DataContext = new GameViewModel(this, "Ronald");
-        }
-
         public void AddCards(Player one, Player two)
         {
             one.Images.Add(Card1Player);
@@ -38,6 +29,17 @@ namespace Blackjack.Views
             two.Images.Add(Card4Computer);
             two.Images.Add(Card5Computer);
             two.Images.Add(Card6Computer);
+        }
+
+        public void DealButton(bool show)
+        {
+            Deal.Visibility = show ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        public void DisplayName(string name)
+        {
+            Name1.Content = name + ":";
+            Name2.Content = name + ":";
         }
 
         public void ShowResult(string result)
@@ -75,8 +77,9 @@ namespace Blackjack.Views
             PlayerPoints.Content = player.SplitDeck.ScoreLeft + " : " + player.SplitDeck.ScoreRight;
         }
 
-        public void EndGame(Player one, Player two, Player winner, int bet)
+        public void EndGame(Player one, Player two, int bet)
         {
+            Player winner = GameHelper.CalculateWinner(one, two);
             if (winner == null)
             {
                 ShowResult("Draw!");
@@ -95,18 +98,44 @@ namespace Blackjack.Views
                     one.Money -= bet;
                 }
             }
-            
-            DisplayMoney(one, two);
+        }
 
+        public void EndGameSplit(Player one, Player two, int bet)
+        {
+            Player winner = GameHelper.CalculateWinnerSplit(one, two);
+
+            if (winner == null)
+            {
+                ShowResult("Draw!");
+            }
+            else
+            {
+                ShowResult(winner.Name + " won the game!");
+                // Need to multiply by two because we doubled our wins / loses
+                if (winner == one)
+                {
+                    one.Money += bet * 2;
+                    two.Money -= bet * 2;
+                }
+                else
+                {
+                    two.Money += bet * 2;
+                    one.Money -= bet * 2;
+                }
+            }
+        }
+
+        public void CheckMoney(Player one, Player two)
+        {
             if (one.Money <= 0)
             {
                 new EndWindow(two.Name).Show();
-                this.Close();
+                Close();
             }
             else if (two.Money <= 0)
             {
                 new EndWindow(one.Name).Show(); ;
-                this.Close();
+                Close();
             }
         }
 

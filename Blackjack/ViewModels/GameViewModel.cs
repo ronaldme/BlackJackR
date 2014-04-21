@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using Blackjack.Commands;
 using Blackjack.Helpers;
 using Blackjack.Interfaces;
 using Blackjack.Models;
@@ -14,9 +13,9 @@ namespace Blackjack.ViewModels
 {
     public class GameViewModel : INotifyPropertyChanged
     {
-        private Dictionary<int, BitmapImage[]> CardImages { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
         public CommandsManager Commands { get; set; }
+        private Dictionary<int, BitmapImage[]> CardImages { get; set; }
         public Player Player { get; set; }
         public Player Computer { get; set; }
         public TaskFactory TaskFactory { get; private set; }
@@ -26,15 +25,15 @@ namespace Blackjack.ViewModels
         public bool DoubleCards { get; set; }
         public bool SplitDeck { get; set; }
 
-        public GameViewModel(IView view, string playerName)
+        public GameViewModel(IView view, string name)
         {
             View = view;
             Commands = new CommandsManager(this);
 
-            Player = new Player(playerName, 1000, ImagesHelper.CreateImage("player"), 2);
+            Player = new Player(name, 1000, ImagesHelper.CreateImage("player"), 2);
             Computer = new Player("Computer", 1000, ImagesHelper.CreateImage("computer"), 2);
             view.DisplayMoney(Player, Computer);
-            BetAmount = "100";
+            view.DisplayName(name);
 
             CardImages = ImagesHelper.GetBlackJackCards();
             view.AddCards(Player, Computer);
@@ -53,8 +52,8 @@ namespace Blackjack.ViewModels
             Random ran = new Random();
             BetPlaced = true;
 
-            int cardOne = 5;//ran.Next(2, 12);
-            int cardTwo = 5;//ran.Next(2, 12);
+            int cardOne = ran.Next(2, 12);
+            int cardTwo = ran.Next(2, 12);
             GameHelper.AddAces(Player, cardOne);
             GameHelper.AddAces(Player, cardTwo);
 
@@ -83,13 +82,11 @@ namespace Blackjack.ViewModels
             Player.Images[Player.CurrentImage].Source = ImagesHelper.RandomColorCard(CardImages.First(x => x.Key == card).Value);
             Player.CurrentImage++;
             Player.Score += card;
-
+            
             if (Player.Score > 21 && !GameHelper.HasAces(Player))
             {
                 BetPlaced = false;
-                View.DisplayPoints(Player);
-                View.EndGame(Player, Computer, GameHelper.CalculateWinner(Player, Computer), Convert.ToInt16(BetAmount));                
-                return;
+                End(false);  
             }
             View.DisplayPoints(Player);
         }
@@ -106,10 +103,14 @@ namespace Blackjack.ViewModels
                     ImagesHelper.RandomColorCard(CardImages.First(x => x.Key == card).Value);
                 Player.SplitDeck.CurrentImageLeft++;
                 Player.SplitDeck.ScoreLeft += card;
-
+                
                 if (Player.SplitDeck.ScoreLeft > 21 && !GameHelper.HasAcesSplit(Player, true))
                 {
                     Player.SplitDeck.FinishedLeft = true;
+                    if (Player.SplitDeck.FinishedRight)
+                    {
+                        Stand(true);
+                    }
                 }
                 View.DisplayPointsSplit(Player);
             }
@@ -123,12 +124,16 @@ namespace Blackjack.ViewModels
                 if (Player.SplitDeck.ScoreRight > 21 && !GameHelper.HasAcesSplit(Player, false))
                 {
                     Player.SplitDeck.FinishedRight = true;
+                    if (Player.SplitDeck.FinishedLeft)
+                    {
+                        Stand(true);
+                    }
                 }
                 View.DisplayPointsSplit(Player);
             }
         }
 
-        public void Stand()
+        public void Stand(bool isSplit)
         {
             Random ran = new Random();
             int cardOne = ran.Next(2, 12);
@@ -142,23 +147,23 @@ namespace Blackjack.ViewModels
                 ImagesHelper.RandomColorCard(CardImages.First(x => x.Key == cardTwo).Value);
 
             Computer.Score = cardOne + cardTwo;
+            View.DisplayPoints(Computer);
 
             if (Computer.Score < 17 || (Computer.Score > 21 && GameHelper.HasAces(Computer)))
             {
-                View.DisplayPoints(Computer);
                 TaskFactory = new TaskFactory(TaskScheduler.FromCurrentSynchronizationContext());
-                new Thread(HitCardComputer).Start();
+                new Thread(() => HitCardComputer(isSplit)).Start();
             }
             else
             {
-                View.DisplayPoints(Computer);
-                View.EndGame(Player, Computer, GameHelper.CalculateWinner(Player, Computer), Convert.ToInt16(BetAmount));
+                End(isSplit);
             }
             BetPlaced = false;
        }
 
-        public void HitCardComputer()
+        public void HitCardComputer(bool isSplit)
         {
+            TaskFactory.StartNew(() => View.DealButton(false));
             while (Computer.Score < 17 && Computer.CurrentImage < Computer.Images.Count())
             {
                 // Pretend to be thinking
@@ -176,7 +181,9 @@ namespace Blackjack.ViewModels
                     GameHelper.HasAces(Computer);
                 }
             }
-            TaskFactory.StartNew(() => View.EndGame(Player, Computer, GameHelper.CalculateWinner(Player, Computer), Convert.ToInt16(BetAmount)));
+            TaskFactory.StartNew(() => End(isSplit));
+            TaskFactory.StartNew(() => View.DealButton(true));
+            Thread.Yield();
         }
 
         private void DisplayCard(int card)
@@ -185,6 +192,21 @@ namespace Blackjack.ViewModels
                 ImagesHelper.RandomColorCard(CardImages.First(x => x.Key == card).Value);
             Computer.CurrentImage++;
             View.DisplayPoints(Computer);
+        }
+
+        private void End(bool isSplit)
+        {
+            if (isSplit)
+            {
+                View.EndGameSplit(Player, Computer, Convert.ToInt16(BetAmount));
+            }
+            else
+            {
+                View.EndGame(Player, Computer, Convert.ToInt16(BetAmount));
+            }
+
+            View.DisplayMoney(Player, Computer);
+            View.CheckMoney(Player, Computer);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Blackjack.Commands
             viewModel.Player.SplitDeck.FinishedRight = true;
             if (viewModel.Player.SplitDeck.FinishedLeft)
             {
-                viewModel.Stand();
+                viewModel.Stand(true);
             }
         }
     }

@@ -10,18 +10,18 @@ namespace Blackjack.ViewModels
         private readonly StartWindow startWindow;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public ICommand UpdateCommand { get; private set; }
-        public string PlayerName { get; set; }
+        public ICommand StartCommand { get; private set; }
+        public string Name { get; set; }
 
         public StartViewModel(StartWindow window)
         {
             startWindow = window;
-            UpdateCommand = new StartCommand(this);
+            StartCommand = new StartCommand(this);
         }
 
         public void StartGame()
         {
-            GameWindow game = new GameWindow(PlayerName);
+            GameWindow game = new GameWindow(Name);
             game.Show();
             startWindow.Close();
         }

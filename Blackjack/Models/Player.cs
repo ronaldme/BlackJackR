@@ -17,18 +17,18 @@ namespace Blackjack.Models
 
         public Player(string name, int money, BitmapImage backSide, int currentImage)
         {
-            this.Images = new List<Image>();
-            this.SplitDeck = new SplitDeck();
-            this.Name = name;
-            this.Money = money;
-            this.ImageBack = backSide;
-            this.CurrentImage = currentImage;
+            Images = new List<Image>();
+            SplitDeck = new SplitDeck();
+            Name = name;
+            Money = money;
+            ImageBack = backSide;
+            CurrentImage = currentImage;
         }
 
         public void ShowBackside()
         {
-            this.Images[0].Source = ImageBack;
-            this.Images[1].Source = ImageBack;
+            Images[0].Source = ImageBack;
+            Images[1].Source = ImageBack;
         }
     }
 }
