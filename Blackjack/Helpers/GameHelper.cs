@@ -33,7 +33,7 @@ namespace Blackjack.Helpers
             {
                 return one;
             }
-            else if ((two.Score > one.Score || one.Score > 21) && two.Score <= 21)
+            if ((two.Score > one.Score || one.Score > 21) && two.Score <= 21)
             {
                 return two;
             }
@@ -101,23 +101,16 @@ namespace Blackjack.Helpers
 
         public static void ResetGame(Player one, Player two)
         {
-            one.CurrentImage = 2;
-            one.Aces = 0;
-            one.Score = 0;
-            one.SplitDeck = new SplitDeck();
-
-            two.CurrentImage = 2;
-            two.Aces = 0;
-            two.Score = 0;
+            one.Reset();
+            two.Reset();
+            one.ResetSplitDeck();
         }
 
         public static void ResetImages(Player one, Player two)
         {
             one.Images.ForEach(x => x.Source = null);
-            one.SplitDeck.ImagesLeft.ForEach(x => x.Source = null);
-            one.SplitDeck.ImagesRight.ForEach(x => x.Source = null);
-            
             two.Images.ForEach(x => x.Source = null);
+
             two.Images[0].Source = two.ImageBack;
             two.Images[1].Source = two.ImageBack;
         }

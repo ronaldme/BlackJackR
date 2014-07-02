@@ -14,8 +14,8 @@ namespace Blackjack.ViewModels
     public class GameViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public CommandsManager Commands { get; set; }
-        private Dictionary<int, BitmapImage[]> CardImages { get; set; }
+        public Models.Commands Commands { get; private set; }
+        public Dictionary<int, BitmapImage[]> CardImages { get; private set; }
         public Player Player { get; set; }
         public Player Computer { get; set; }
         public TaskFactory TaskFactory { get; private set; }
@@ -24,13 +24,17 @@ namespace Blackjack.ViewModels
         public bool BetPlaced { get; set; }
         public bool DoubleCards { get; set; }
         public bool SplitDeck { get; set; }
+        public Random Random { get; set; }
 
         public GameViewModel(IView view, string name)
         {
             View = view;
-            Commands = new CommandsManager(this);
+            Random = new Random();
+            Commands = new Models.Commands(this);
 
             Player = new Player(name, 1000, ImagesHelper.CreateImage("player"), 2);
+            Player.CreateSplitDeck();
+            view.AddSplitDeckCards(Player);
             Computer = new Player("Computer", 1000, ImagesHelper.CreateImage("computer"), 2);
             view.DisplayMoney(Player, Computer);
             view.DisplayName(name);
@@ -48,12 +52,10 @@ namespace Blackjack.ViewModels
             GameHelper.ResetGame(Player, Computer);
             View.ResetResult();
             View.SplitDeck(Player, false);
-
-            Random ran = new Random();
             BetPlaced = true;
 
-            int cardOne = ran.Next(2, 12);
-            int cardTwo = ran.Next(2, 12);
+            int cardOne = Random.Next(2, 12);
+            int cardTwo = Random.Next(2, 12);
             GameHelper.AddAces(Player, cardOne);
             GameHelper.AddAces(Player, cardTwo);
 
@@ -75,8 +77,7 @@ namespace Blackjack.ViewModels
 
         public void HitCard()
         {
-            Random ran = new Random();
-            int card = ran.Next(2, 12);
+            int card = Random.Next(2, 12);
             GameHelper.AddAces(Player, card);
 
             Player.Images[Player.CurrentImage].Source = ImagesHelper.RandomColorCard(CardImages.First(x => x.Key == card).Value);
@@ -93,8 +94,7 @@ namespace Blackjack.ViewModels
 
         public void HitCardSplit(bool leftDeck)
         {
-            Random ran = new Random();
-            int card = ran.Next(2, 12);
+            int card = Random.Next(2, 12);
             GameHelper.AddAcesSplit(Player, card, leftDeck);
 
             if (leftDeck)
@@ -135,9 +135,8 @@ namespace Blackjack.ViewModels
 
         public void Stand(bool isSplit)
         {
-            Random ran = new Random();
-            int cardOne = ran.Next(2, 12);
-            int cardTwo = ran.Next(2, 12);
+            int cardOne = Random.Next(2, 12);
+            int cardTwo = Random.Next(2, 12);
             GameHelper.AddAces(Computer, cardOne);
             GameHelper.AddAces(Computer, cardTwo);
 
@@ -167,10 +166,9 @@ namespace Blackjack.ViewModels
             while (Computer.Score < 17 && Computer.CurrentImage < Computer.Images.Count())
             {
                 // Pretend to be thinking
-                Thread.Sleep(800);
+                Thread.Sleep(1000);
 
-                Random ran = new Random();
-                int card = ran.Next(2, 12);
+                int card = Random.Next(2, 12);
                 GameHelper.AddAces(Computer, card);
 
                 Computer.Score += card;

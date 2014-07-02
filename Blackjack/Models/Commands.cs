@@ -4,7 +4,7 @@ using Blackjack.ViewModels;
 
 namespace Blackjack.Models
 {
-    public class CommandsManager
+    public class Commands
     {
         public ICommand DealCommand { get; private set; }
         public ICommand HitCommand { get; private set; }
@@ -16,7 +16,7 @@ namespace Blackjack.Models
         public ICommand HitRightCommand { get; private set; }
         public ICommand StandRightCommand { get; private set; }
 
-        public CommandsManager(GameViewModel viewModel)
+        public Commands(GameViewModel viewModel)
         {
             DealCommand = new DealCommand(viewModel);
             HitCommand = new HitCommand(viewModel);

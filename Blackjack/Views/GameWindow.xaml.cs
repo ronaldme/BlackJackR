@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using Blackjack.Helpers;
 using Blackjack.Interfaces;
 using Blackjack.Models;
@@ -8,27 +11,29 @@ namespace Blackjack.Views
 {
     public partial class GameWindow : IView
     {
+        private readonly Button[] defaultButtons;
+        private readonly Button[] splitButtons;
+
         public GameWindow(string name)
         {
             InitializeComponent();
-            this.DataContext = new GameViewModel(this, name);
+            defaultButtons = new[] { Hit, Stand, Split };
+            splitButtons = new[] { HitLeft, HitRight, StandLeft, StandRight };
+            DataContext = new GameViewModel(this, name);
         }
 
+        public GameWindow()
+        {
+            InitializeComponent();
+            defaultButtons = new[] { Hit, Stand, Split };
+            splitButtons = new[] { HitLeft, HitRight, StandLeft, StandRight };
+            DataContext = new GameViewModel(this, "temp");
+        }
+ 
         public void AddCards(Player one, Player two)
         {
-            one.Images.Add(Card1Player);
-            one.Images.Add(Card2Player);
-            one.Images.Add(Card3Player);
-            one.Images.Add(Card4Player);
-            one.Images.Add(Card5Player);
-            one.Images.Add(Card6Player);
-
-            two.Images.Add(Card1Computer);
-            two.Images.Add(Card2Computer);
-            two.Images.Add(Card3Computer);
-            two.Images.Add(Card4Computer);
-            two.Images.Add(Card5Computer);
-            two.Images.Add(Card6Computer);
+            one.Images.AddRange(new List<Image>() { Card1Player, Card2Player, Card3Player, Card4Player, Card5Player, Card6Player });
+            two.Images.AddRange(new List<Image>() { Card1Computer, Card2Computer, Card3Computer, Card4Computer, Card5Computer, Card6Computer });
         }
 
         public void DealButton(bool show)
@@ -103,7 +108,6 @@ namespace Blackjack.Views
         public void EndGameSplit(Player one, Player two, int bet)
         {
             Player winner = GameHelper.CalculateWinnerSplit(one, two);
-
             if (winner == null)
             {
                 ShowResult("Draw!");
@@ -111,7 +115,7 @@ namespace Blackjack.Views
             else
             {
                 ShowResult(winner.Name + " won the game!");
-                // Need to multiply by two because we doubled our wins / loses
+                // Multiply by two because we doubled our wins / loses
                 if (winner == one)
                 {
                     one.Money += bet * 2;
@@ -144,38 +148,21 @@ namespace Blackjack.Views
             if (activate)
             {
                 BorderSplit.Visibility = Visibility.Visible;
-                HitLeft.Visibility = Visibility.Visible;
-                HitRight.Visibility = Visibility.Visible;
-                StandLeft.Visibility = Visibility.Visible;
-                StandRight.Visibility = Visibility.Visible;
-
-                Hit.Visibility = Visibility.Hidden;
-                Stand.Visibility = Visibility.Hidden;
-                Split.Visibility = Visibility.Hidden;
-                player.SplitDeck.ImagesLeft.Add(Card3Player);
-                player.SplitDeck.ImagesLeft.Add(Card5Player);
-                player.SplitDeck.ImagesLeft.Add(CardLeft1);
-                player.SplitDeck.ImagesLeft.Add(CardLeft2);
-                player.SplitDeck.ImagesLeft.Add(CardLeft3);
-
-                player.SplitDeck.ImagesRight.Add(Card4Player);
-                player.SplitDeck.ImagesRight.Add(Card6Player);
-                player.SplitDeck.ImagesRight.Add(CardRight1);
-                player.SplitDeck.ImagesRight.Add(CardRight2);
-                player.SplitDeck.ImagesRight.Add(CardRight3);
+                defaultButtons.ToList().ForEach(x => x.Visibility = Visibility.Hidden);
+                splitButtons.ToList().ForEach(x => x.Visibility = Visibility.Visible);
             }
             else
             {
                 BorderSplit.Visibility = Visibility.Hidden;
-                HitLeft.Visibility = Visibility.Hidden;
-                HitRight.Visibility = Visibility.Hidden;
-                StandLeft.Visibility = Visibility.Hidden;
-                StandRight.Visibility = Visibility.Hidden;
-
-                Hit.Visibility = Visibility.Visible;
-                Stand.Visibility = Visibility.Visible;
-                Split.Visibility = Visibility.Visible;
+                defaultButtons.ToList().ForEach(x => x.Visibility = Visibility.Visible);
+                splitButtons.ToList().ForEach(x => x.Visibility = Visibility.Hidden);
             }
+        }
+
+        public void AddSplitDeckCards(Player player)
+        {
+            player.SplitDeck.ImagesLeft.AddRange(new List<Image>() { Card3Player, Card5Player, CardLeft1, CardLeft2, CardLeft3 });
+            player.SplitDeck.ImagesRight.AddRange(new List<Image>() { Card4Player, Card6Player, CardRight1, CardRight2, CardRight3 });
         }
     }
 }

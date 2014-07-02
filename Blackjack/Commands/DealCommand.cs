@@ -26,23 +26,17 @@ namespace Blackjack.Commands
                 return false;
             }
 
-            try
+            int bet;
+            bool parsed = Int32.TryParse(viewModel.BetAmount, out bet);
+
+            if (parsed)
             {
-                int bet = Convert.ToInt16(viewModel.BetAmount);
                 if (bet >= 100 && bet <= 500)
                 {
                     return true;
                 }
+                
             }
-            catch (FormatException formatException)
-            {
-                return false;
-            }
-            catch (OverflowException overflowException)
-            {
-                return false;
-            }
-
             return false;
         }
 

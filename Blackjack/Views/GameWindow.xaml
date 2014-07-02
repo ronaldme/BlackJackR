@@ -42,7 +42,7 @@
         <Image Name="Card4Player" HorizontalAlignment="Left" Height="97" Margin="478,249,0,0" VerticalAlignment="Top" Width="71" />
         <Image Name="Card5Player" HorizontalAlignment="Left" Height="97" Margin="59,249,0,0" VerticalAlignment="Top" Width="71" />
         <Image Name="Card6Player" HorizontalAlignment="Left" Height="97" Margin="581,249,0,0" VerticalAlignment="Top" Width="71" />
-
+        
         <!-- Split deck -->
         <Border Name="BorderSplit" BorderBrush="Black" Visibility="Hidden" BorderThickness="1" HorizontalAlignment="Left" Height="311" Margin="350,225,0,0" VerticalAlignment="Top" Width="2" />
         <Image Name="CardRight1" HorizontalAlignment="Left" Height="97" Margin="370,385,0,0" VerticalAlignment="Top" Width="71" />
