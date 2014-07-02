@@ -43,6 +43,7 @@ namespace Blackjack.ViewModels
             view.AddCards(Player, Computer);
             Player.ShowBackside();
             Computer.ShowBackside();
+            BetAmount = "100";
         }
 
         public void DealCards()

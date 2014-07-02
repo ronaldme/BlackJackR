@@ -36,12 +36,14 @@
         <Label Name="Result" FontSize="14" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="188,12,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.053,0" Height="28" Width="347"/>
 
         <!--  Images player -->
-        <Image Name="Card1Player" HorizontalAlignment="Left" Height="97" Margin="259,249,0,0" VerticalAlignment="Top" Width="71" />
-        <Image Name="Card2Player" HorizontalAlignment="Left" Height="97" Margin="369,249,0,0" VerticalAlignment="Top" Width="71" />
-        <Image Name="Card3Player" HorizontalAlignment="Left" Height="97" Margin="158,249,0,0" VerticalAlignment="Top" Width="71" />
-        <Image Name="Card4Player" HorizontalAlignment="Left" Height="97" Margin="478,249,0,0" VerticalAlignment="Top" Width="71" />
-        <Image Name="Card5Player" HorizontalAlignment="Left" Height="97" Margin="59,249,0,0" VerticalAlignment="Top" Width="71" />
-        <Image Name="Card6Player" HorizontalAlignment="Left" Height="97" Margin="581,249,0,0" VerticalAlignment="Top" Width="71" />
+        <Grid Name="PlayerImages">
+            <Image Name="Card1Player" HorizontalAlignment="Left" Height="97" Margin="259,249,0,0" VerticalAlignment="Top" Width="71" />
+            <Image Name="Card2Player" HorizontalAlignment="Left" Height="97" Margin="369,249,0,0" VerticalAlignment="Top" Width="71" />
+            <Image Name="Card3Player" HorizontalAlignment="Left" Height="97" Margin="158,249,0,0" VerticalAlignment="Top" Width="71" />
+            <Image Name="Card4Player" HorizontalAlignment="Left" Height="97" Margin="478,249,0,0" VerticalAlignment="Top" Width="71" />
+            <Image Name="Card5Player" HorizontalAlignment="Left" Height="97" Margin="59,249,0,0" VerticalAlignment="Top" Width="71" />
+            <Image Name="Card6Player" HorizontalAlignment="Left" Height="97" Margin="581,249,0,0" VerticalAlignment="Top" Width="71" />
+        </Grid>
         
         <!-- Split deck -->
         <Border Name="BorderSplit" BorderBrush="Black" Visibility="Hidden" BorderThickness="1" HorizontalAlignment="Left" Height="311" Margin="350,225,0,0" VerticalAlignment="Top" Width="2" />
@@ -51,7 +53,7 @@
         <Image Name="CardLeft1" HorizontalAlignment="Left" Height="97" Margin="260,385,0,0" VerticalAlignment="Top" Width="71" />
         <Image Name="CardLeft2" HorizontalAlignment="Left" Height="97" Margin="158,385,0,0" VerticalAlignment="Top" Width="71" />
         <Image Name="CardLeft3" HorizontalAlignment="Left" Height="97" Margin="59,385,0,0" VerticalAlignment="Top" Width="71" />
-
+            
         <!-- Buttons split deck -->
         <Button Command="{ Binding Commands.HitLeftCommand }" Name="HitLeft" Visibility="Hidden" Content="Hit left!" HorizontalAlignment="Left" Margin="20,336,0,0" VerticalAlignment="Top" Width="70" Height="27" Grid.Column="2" />
         <Button Command="{ Binding Commands.HitRightCommand }" Name="HitRight" Visibility="Hidden" Content="Hit right!" HorizontalAlignment="Left" Margin="98,336,0,0" VerticalAlignment="Top" Width="70" Height="27" Grid.Column="2" />
@@ -63,11 +65,13 @@
         <Label Visibility="Hidden" Name="LabelRight" Content="Label" HorizontalAlignment="Left" Margin="582,500,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.368,0" Width="92" />
 
         <!--  Images Computer -->
-        <Image Name="Card1Computer" HorizontalAlignment="Left" Height="97" Margin="259,72,0,0" VerticalAlignment="Top" Width="71" />
-        <Image Name="Card2Computer" HorizontalAlignment="Left" Height="97" Margin="370,72,0,0" VerticalAlignment="Top" Width="71" />
-        <Image Name="Card3Computer" HorizontalAlignment="Left" Height="97" Margin="157,72,0,0" VerticalAlignment="Top" Width="71" />
-        <Image Name="Card4Computer" HorizontalAlignment="Left" Height="97" Margin="479,72,0,0" VerticalAlignment="Top" Width="71" />
-        <Image Name="Card5Computer" HorizontalAlignment="Left" Height="97" Margin="59,72,0,0" VerticalAlignment="Top" Width="71" />
-        <Image Name="Card6Computer" HorizontalAlignment="Left" Height="97" Margin="583,72,0,0" VerticalAlignment="Top" Width="71" />
+        <Grid Name="ComputerImages">
+            <Image Name="Card1Computer" HorizontalAlignment="Left" Height="97" Margin="259,72,0,0" VerticalAlignment="Top" Width="71" />
+            <Image Name="Card2Computer" HorizontalAlignment="Left" Height="97" Margin="370,72,0,0" VerticalAlignment="Top" Width="71" />
+            <Image Name="Card3Computer" HorizontalAlignment="Left" Height="97" Margin="157,72,0,0" VerticalAlignment="Top" Width="71" />
+            <Image Name="Card4Computer" HorizontalAlignment="Left" Height="97" Margin="479,72,0,0" VerticalAlignment="Top" Width="71" />
+            <Image Name="Card5Computer" HorizontalAlignment="Left" Height="97" Margin="59,72,0,0" VerticalAlignment="Top" Width="71" />
+            <Image Name="Card6Computer" HorizontalAlignment="Left" Height="97" Margin="583,72,0,0" VerticalAlignment="Top" Width="71" />
+        </Grid>
     </Grid>
 </Window>

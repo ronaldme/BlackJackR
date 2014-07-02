@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Blackjack.Helpers;
 using Blackjack.Interfaces;
 using Blackjack.Models;
@@ -32,8 +33,17 @@ namespace Blackjack.Views
  
         public void AddCards(Player one, Player two)
         {
-            one.Images.AddRange(new List<Image>() { Card1Player, Card2Player, Card3Player, Card4Player, Card5Player, Card6Player });
-            two.Images.AddRange(new List<Image>() { Card1Computer, Card2Computer, Card3Computer, Card4Computer, Card5Computer, Card6Computer });
+            AddImages(one, PlayerImages);
+            AddImages(two, ComputerImages);
+        }
+
+        private void AddImages(Player player, Grid grid)
+        {
+            for (var i = 0; i < VisualTreeHelper.GetChildrenCount(grid); i++)
+            {
+                var child = VisualTreeHelper.GetChild(grid, i);
+                player.Images.Add((Image)child);
+            }
         }
 
         public void DealButton(bool show)
